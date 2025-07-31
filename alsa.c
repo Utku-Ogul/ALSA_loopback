@@ -1,6 +1,6 @@
 #include "alsa.h"
 
-snd_pcm_format_t test_formats[] = {
+const snd_pcm_format_t test_formats[] = {
     SND_PCM_FORMAT_S8,
     SND_PCM_FORMAT_U8,
     SND_PCM_FORMAT_S16_LE,
@@ -71,6 +71,41 @@ void print_playback_device_info(snd_pcm_t *pcm_handle_p, snd_pcm_hw_params_t *pa
     printf("\nDesteklenen kanal sayisi:\n- Min: %u\n- Max: %u\n", min_channels, max_channels);
 
     snd_pcm_info_free(info);
+}
+
+void loopback(snd_pcm_t *pcm_handle_c, snd_pcm_hw_params_t *params_c,snd_pcm_t *pcm_handle_p, snd_pcm_hw_params_t *params_p,int frame_size,int channels, int sample_size){
+
+    char buffer[frame_size * channels * sample_size];
+
+    //capture
+    snd_pcm_hw_params_set_access(pcm_handle_c,params_c,SND_PCM_ACCESS_RW_INTERLEAVED);
+    snd_pcm_hw_params_set_format(pcm_handle_c,params_c,SND_PCM_FORMAT_S16_LE);
+    snd_pcm_hw_params_set_channels(pcm_handle_c, params_c, channels);
+    snd_pcm_hw_params_set_rate(pcm_handle_c,params_c,48000,0);
+    snd_pcm_hw_params(pcm_handle_c,params_c);
+    snd_pcm_prepare(pcm_handle_c);
+    
+    //playback
+    snd_pcm_hw_params_set_access(pcm_handle_p,params_p,SND_PCM_ACCESS_RW_INTERLEAVED);
+    snd_pcm_hw_params_set_format(pcm_handle_p,params_p,SND_PCM_FORMAT_S16_LE);
+    snd_pcm_hw_params_set_channels(pcm_handle_p, params_p, channels);
+    snd_pcm_hw_params_set_rate(pcm_handle_p,params_p,48000,0);
+    snd_pcm_hw_params(pcm_handle_p,params_p);
+    snd_pcm_prepare(pcm_handle_p);
+
+
+
+    while (1) {
+        snd_pcm_readi(pcm_handle_c, buffer, frame_size);
+        snd_pcm_writei(pcm_handle_p, buffer, frame_size);
+    }
+
+    
+    snd_pcm_close(pcm_handle_p);
+    snd_pcm_close(pcm_handle_c);
+
+    free(buffer);
+
 }
 
 

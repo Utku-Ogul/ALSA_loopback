@@ -21,9 +21,14 @@ int main(int argc, char *argv[]) {
     snd_pcm_hw_params_malloc(&params_p);
     snd_pcm_hw_params_any(pcm_handle_p,params_p);
 
-
+    //device info
     print_capture_device_info(pcm_handle_c,params_c);
     print_playback_device_info(pcm_handle_p,params_p);
+
+    //loopback
+    loopback(pcm_handle_c, params_c, pcm_handle_p, params_p,1024, 1, 2);
+
+
 
 
     snd_pcm_close(pcm_handle_p);
