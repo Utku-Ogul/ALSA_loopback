@@ -24,8 +24,6 @@ int main(int argc, char *argv[]){
 
 
     snd_pcm_hw_params_malloc(&params_c);
-    
-    
     snd_pcm_hw_params_any(pcm_handle_c,params_c);
     
     snd_pcm_hw_params_set_access(pcm_handle_c,params_c,SND_PCM_ACCESS_RW_INTERLEAVED);
@@ -39,7 +37,6 @@ int main(int argc, char *argv[]){
     snd_pcm_open(&pcm_handle_p,playback,SND_PCM_STREAM_PLAYBACK,0);
     
     snd_pcm_hw_params_malloc(&params_p);
-    
     snd_pcm_hw_params_any(pcm_handle_p,params_p);
 
     snd_pcm_hw_params_set_access(pcm_handle_p,params_p,SND_PCM_ACCESS_RW_INTERLEAVED);
