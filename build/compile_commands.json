@@ -1,0 +1,20 @@
+[
+{
+  "directory": "/home/mjin/Desktop/internship/task/build",
+  "command": "/usr/bin/gcc  -I/usr/include/opus -I/home/mjin/Desktop/internship/task -g -std=gnu99 -o CMakeFiles/ses.dir/main.c.o -c /home/mjin/Desktop/internship/task/main.c",
+  "file": "/home/mjin/Desktop/internship/task/main.c",
+  "output": "CMakeFiles/ses.dir/main.c.o"
+},
+{
+  "directory": "/home/mjin/Desktop/internship/task/build",
+  "command": "/usr/bin/gcc  -I/usr/include/opus -I/home/mjin/Desktop/internship/task -g -std=gnu99 -o CMakeFiles/ses.dir/alsa.c.o -c /home/mjin/Desktop/internship/task/alsa.c",
+  "file": "/home/mjin/Desktop/internship/task/alsa.c",
+  "output": "CMakeFiles/ses.dir/alsa.c.o"
+},
+{
+  "directory": "/home/mjin/Desktop/internship/task/build",
+  "command": "/usr/bin/gcc  -I/usr/include/opus -I/home/mjin/Desktop/internship/task -g -std=gnu99 -o CMakeFiles/ses.dir/codec.c.o -c /home/mjin/Desktop/internship/task/codec.c",
+  "file": "/home/mjin/Desktop/internship/task/codec.c",
+  "output": "CMakeFiles/ses.dir/codec.c.o"
+}
+]

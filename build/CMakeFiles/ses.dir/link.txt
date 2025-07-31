@@ -1,0 +1,1 @@
+/usr/bin/gcc -g CMakeFiles/ses.dir/main.c.o CMakeFiles/ses.dir/alsa.c.o CMakeFiles/ses.dir/codec.c.o -o ses  -lasound -lopus 
