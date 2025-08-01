@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include "alsa.h"
 #include <sys/socket.h>
+#include <unistd.h>
+#include <arpa/inet.h>
+#include <sys/socket.h>
 
 int main(int argc, char *argv[]) {
 
@@ -26,8 +29,10 @@ int main(int argc, char *argv[]) {
     print_playback_device_info(pcm_handle_p,params_p);
 
     //loopback
-    loopback(pcm_handle_c, params_c, pcm_handle_p, params_p,1024, 1, 2);
+    //loopback(pcm_handle_c, params_c, pcm_handle_p, params_p,1024, 1, 2);
 
+    // UDP
+    udp_sender(pcm_handle_c, params_c, pcm_handle_p, params_p,1024, 1, 2);
 
 
 
