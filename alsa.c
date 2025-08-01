@@ -153,3 +153,29 @@ void udp_sender(snd_pcm_t *pcm_handle_c, snd_pcm_hw_params_t *params_c,snd_pcm_t
 
 
 }
+
+
+void udp_receiver(snd_pcm_t *pcm_handle_c, snd_pcm_hw_params_t *params_c,snd_pcm_t *pcm_handle_p, snd_pcm_hw_params_t *params_p,int frame_size,int channels, int sample_size){
+
+    char buffer[frame_size * channels * sample_size];
+
+    //playback
+    snd_pcm_hw_params_set_access(pcm_handle_p,params_p,SND_PCM_ACCESS_RW_INTERLEAVED);
+    snd_pcm_hw_params_set_format(pcm_handle_p,params_p,SND_PCM_FORMAT_S16_LE);
+    snd_pcm_hw_params_set_channels(pcm_handle_p, params_p, channels);
+    snd_pcm_hw_params_set_rate(pcm_handle_p,params_p,48000,0);
+    snd_pcm_hw_params(pcm_handle_p,params_p);
+    snd_pcm_prepare(pcm_handle_p);
+
+
+    //UDP_receiver
+    int sockfd = socket(AF_INET,SOCK_DGRAM,0);
+    if (sockfd < 0){
+        perror("socket");
+    }
+
+    
+
+
+
+};
