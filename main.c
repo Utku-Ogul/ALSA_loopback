@@ -1,9 +1,4 @@
-#include <stdio.h>
-#include "alsa.h"
-#include <sys/socket.h>
-#include <unistd.h>
-#include <arpa/inet.h>
-#include <sys/socket.h>
+#include "main.h"
 
 int main(int argc, char *argv[]) {
 
@@ -33,6 +28,7 @@ int main(int argc, char *argv[]) {
 
     // UDP
     udp_sender(pcm_handle_c, params_c, pcm_handle_p, params_p,1024, 1, 2);
+    udp_receiver(pcm_handle_c, params_c, pcm_handle_p, params_p,1024, 1, 2);
 
 
 

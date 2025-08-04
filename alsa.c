@@ -139,7 +139,7 @@ void udp_sender(snd_pcm_t *pcm_handle_c, snd_pcm_hw_params_t *params_c,snd_pcm_t
 
     while (1){
         snd_pcm_readi(pcm_handle_c, buffer, frame_size);
-        ssize_t sent = sendto(sockfd, buffer, sizeof(buffer), 0, (struct sockaddr *)&target_addr ,sizeof(target_addr));
+        ssize_t sent = sendto(sockfd, buffer, frame_size*channels*sample_size, 0, (struct sockaddr *)&target_addr ,sizeof(target_addr));
 
         if (sent<0){
             perror("sendto");
@@ -157,25 +157,52 @@ void udp_sender(snd_pcm_t *pcm_handle_c, snd_pcm_hw_params_t *params_c,snd_pcm_t
 
 void udp_receiver(snd_pcm_t *pcm_handle_c, snd_pcm_hw_params_t *params_c,snd_pcm_t *pcm_handle_p, snd_pcm_hw_params_t *params_p,int frame_size,int channels, int sample_size){
 
-    char buffer[frame_size * channels * sample_size];
-
+    
     //playback
+    char buffer[frame_size * channels * sample_size];
     snd_pcm_hw_params_set_access(pcm_handle_p,params_p,SND_PCM_ACCESS_RW_INTERLEAVED);
     snd_pcm_hw_params_set_format(pcm_handle_p,params_p,SND_PCM_FORMAT_S16_LE);
     snd_pcm_hw_params_set_channels(pcm_handle_p, params_p, channels);
     snd_pcm_hw_params_set_rate(pcm_handle_p,params_p,48000,0);
     snd_pcm_hw_params(pcm_handle_p,params_p);
     snd_pcm_prepare(pcm_handle_p);
-
-
+    
+    
     //UDP_receiver
-    int sockfd = socket(AF_INET,SOCK_DGRAM,0);
+    int sockfd = socket(AF_INET, SOCK_DGRAM, 0);
     if (sockfd < 0){
         perror("socket");
+        exit(1);
+    }
+    
+    struct sockaddr_in recv_addr, sender_addr;
+    socklen_t addr_len = sizeof(sender_addr);
+
+    recv_addr.sin_family=AF_INET;
+    recv_addr.sin_port=htons(5000);
+    recv_addr.sin_addr.s_addr=INADDR_ANY ; // local harici için INADDR_ANY local inet_addr("127.0.0.1")
+
+    bind(sockfd, (struct sockaddr*)&recv_addr, sizeof(recv_addr) );
+
+
+    while (1)
+    {
+        ssize_t recv_len = recvfrom(sockfd, buffer,(frame_size * channels * sample_size), 0, (struct sockaddr*)&sender_addr,&addr_len);
+        
+        if(recv_len <0){
+            perror("recvfrom");
+            continue;
+        }else if(recv_len>0){
+            int frames = recv_len/ (sample_size*channels);
+            
+            int err=snd_pcm_writei(pcm_handle_p,buffer,frames);
+
+            if(err<0){
+                snd_pcm_recover(pcm_handle_p, err, 0);
+            }
+        }
     }
 
     
-
-
-
 };
+
