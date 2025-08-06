@@ -24,12 +24,15 @@ int main(int argc, char *argv[]) {
     print_playback_device_info(pcm_handle_p,params_p);
 
     //loopback
-    //loopback(pcm_handle_c, params_c, pcm_handle_p, params_p,1024, 1, 2);
+    loopback(pcm_handle_c, params_c, pcm_handle_p, params_p,1024, 1, 2);
 
     // UDP
-    udp_sender(pcm_handle_c, params_c, pcm_handle_p, params_p,1024, 1, 2);
-    udp_receiver(pcm_handle_c, params_c, pcm_handle_p, params_p,1024, 1, 2);
+    //udp_sender(pcm_handle_c, params_c, pcm_handle_p, params_p,1024, 1, 2);
+    //udp_receiver(pcm_handle_c, params_c, pcm_handle_p, params_p,1024, 1, 2);
 
+    //opus codec
+    codec_sender(pcm_handle_c, params_c, pcm_handle_p, params_p,1024, 1, 2);
+    //codec_receiver(pcm_handle_c, params_c, pcm_handle_p, params_p,1024, 1, 2);
 
 
     snd_pcm_close(pcm_handle_p);
