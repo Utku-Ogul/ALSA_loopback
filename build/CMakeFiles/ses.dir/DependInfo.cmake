@@ -11,6 +11,7 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/home/mjin/Desktop/internship/task/alsa.c" "CMakeFiles/ses.dir/alsa.c.o" "gcc" "CMakeFiles/ses.dir/alsa.c.o.d"
   "/home/mjin/Desktop/internship/task/codec.c" "CMakeFiles/ses.dir/codec.c.o" "gcc" "CMakeFiles/ses.dir/codec.c.o.d"
   "/home/mjin/Desktop/internship/task/main.c" "CMakeFiles/ses.dir/main.c.o" "gcc" "CMakeFiles/ses.dir/main.c.o.d"
+  "/home/mjin/Desktop/internship/task/udp.c" "CMakeFiles/ses.dir/udp.c.o" "gcc" "CMakeFiles/ses.dir/udp.c.o.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

@@ -1,4 +1,5 @@
 #include "alsa.h"
+#include "udp.h"
 
 const snd_pcm_format_t test_formats[] = {
     SND_PCM_FORMAT_S8,
@@ -8,6 +9,40 @@ const snd_pcm_format_t test_formats[] = {
     SND_PCM_FORMAT_FLOAT_LE,
     SND_PCM_FORMAT_FLOAT64_LE
 };
+
+int open_capture_device(const char *capture, snd_pcm_t **pcm_handle_c, snd_pcm_hw_params_t **params_c,int channels, int sample_rate){
+
+    //capture
+
+    snd_pcm_open(pcm_handle_c,capture,SND_PCM_STREAM_CAPTURE,0);
+    snd_pcm_hw_params_malloc(params_c);
+    snd_pcm_hw_params_any(*pcm_handle_c,*params_c);
+    snd_pcm_hw_params_set_access(*pcm_handle_c,*params_c,SND_PCM_ACCESS_RW_INTERLEAVED);
+    snd_pcm_hw_params_set_format(*pcm_handle_c,*params_c,SND_PCM_FORMAT_S16_LE);
+    snd_pcm_hw_params_set_channels(*pcm_handle_c, *params_c, channels);
+    snd_pcm_hw_params_set_rate(*pcm_handle_c,*params_c,sample_rate,0);
+    snd_pcm_hw_params(*pcm_handle_c,*params_c);
+    snd_pcm_prepare(*pcm_handle_c);
+    return 0;
+}
+
+
+int open_playback_device(const char *playback,snd_pcm_t **pcm_handle_p, snd_pcm_hw_params_t **params_p, int channels, int sample_rate){
+
+
+    //playback
+    snd_pcm_open(pcm_handle_p,playback,SND_PCM_STREAM_PLAYBACK,0);
+    snd_pcm_hw_params_malloc(params_p);
+    snd_pcm_hw_params_any(*pcm_handle_p,*params_p);
+    snd_pcm_hw_params_set_access(*pcm_handle_p,*params_p,SND_PCM_ACCESS_RW_INTERLEAVED);
+    snd_pcm_hw_params_set_format(*pcm_handle_p,*params_p,SND_PCM_FORMAT_S16_LE);
+    snd_pcm_hw_params_set_channels(*pcm_handle_p, *params_p, channels);
+    snd_pcm_hw_params_set_rate(*pcm_handle_p,*params_p,sample_rate,0);
+    snd_pcm_hw_params(*pcm_handle_p,*params_p);
+    snd_pcm_prepare(*pcm_handle_p);
+    return 0;
+}
+
 
 
 //mikrefon
@@ -73,70 +108,55 @@ void print_playback_device_info(snd_pcm_t *pcm_handle_p, snd_pcm_hw_params_t *pa
     snd_pcm_info_free(info);
 }
 
-void loopback(snd_pcm_t *pcm_handle_c, snd_pcm_hw_params_t *params_c,snd_pcm_t *pcm_handle_p, snd_pcm_hw_params_t *params_p,int frame_size,int channels, int sample_size){
+
+
+
+void loopback(const char *capture,const char *playback ,snd_pcm_t **pcm_handle_c, snd_pcm_hw_params_t **params_c,snd_pcm_t **pcm_handle_p, snd_pcm_hw_params_t **params_p,int frame_size,int channels,int sample_rate ,int sample_size){
 
     int buffer_size=frame_size * channels * sample_size;
     int16_t *buffer=malloc(buffer_size);
 
     //capture
-    snd_pcm_hw_params_set_access(pcm_handle_c,params_c,SND_PCM_ACCESS_RW_INTERLEAVED);
-    snd_pcm_hw_params_set_format(pcm_handle_c,params_c,SND_PCM_FORMAT_S16_LE);
-    snd_pcm_hw_params_set_channels(pcm_handle_c, params_c, channels);
-    snd_pcm_hw_params_set_rate(pcm_handle_c,params_c,48000,0);
-    snd_pcm_hw_params(pcm_handle_c,params_c);
-    snd_pcm_prepare(pcm_handle_c);
+    if (open_capture_device(capture, pcm_handle_c, params_c, channels, sample_rate)!=0){
+        fprintf(stderr,"loopback-open_capture_device!!!");
+        return;
+    };
+
     
     //playback
-    snd_pcm_hw_params_set_access(pcm_handle_p,params_p,SND_PCM_ACCESS_RW_INTERLEAVED);
-    snd_pcm_hw_params_set_format(pcm_handle_p,params_p,SND_PCM_FORMAT_S16_LE);
-    snd_pcm_hw_params_set_channels(pcm_handle_p, params_p, channels);
-    snd_pcm_hw_params_set_rate(pcm_handle_p,params_p,48000,0);
-    snd_pcm_hw_params(pcm_handle_p,params_p);
-    snd_pcm_prepare(pcm_handle_p);
+    if(open_playback_device(playback, pcm_handle_p, params_p, channels, sample_rate)!=0){
+        fprintf(stderr, "loopback-open_playback_device!!!");
+        return;
+    };
 
 
 
     while (1) {
-        snd_pcm_readi(pcm_handle_c, buffer, frame_size);
-        snd_pcm_writei(pcm_handle_p, buffer, frame_size);
-    }
+        snd_pcm_readi(*pcm_handle_c, buffer, frame_size);
+        snd_pcm_writei(*pcm_handle_p, buffer, frame_size);
+    };
 
-    
-    snd_pcm_close(pcm_handle_p);
-    snd_pcm_close(pcm_handle_c);
 
     free(buffer);
 
 }
 
 
-void udp_sender(snd_pcm_t *pcm_handle_c, snd_pcm_hw_params_t *params_c,snd_pcm_t *pcm_handle_p, snd_pcm_hw_params_t *params_p,int frame_size,int channels, int sample_size){
+void udp_sender(const char capture, snd_pcm_t *pcm_handle_c, snd_pcm_hw_params_t *params_c,int frame_size,int channels, int sample_size, int sample_rate){
     
     int buffer_size=frame_size * channels * sample_size;
     int16_t *buffer=malloc(buffer_size);
 
     //capture
-    snd_pcm_hw_params_set_access(pcm_handle_c,params_c,SND_PCM_ACCESS_RW_INTERLEAVED);
-    snd_pcm_hw_params_set_format(pcm_handle_c,params_c,SND_PCM_FORMAT_S16_LE);
-    snd_pcm_hw_params_set_channels(pcm_handle_c, params_c, channels);
-    snd_pcm_hw_params_set_rate(pcm_handle_c,params_c,48000,0);
-    snd_pcm_hw_params(pcm_handle_c,params_c);
-    snd_pcm_prepare(pcm_handle_c);
-
+    if (open_capture_device(capture, pcm_handle_c, params_c, channels, sample_rate)!=0){
+        fprintf(stderr,"loopback-open_capture_device!!!");
+        return;
+    };
 
     //UDP_sender
-    int sockfd = socket(AF_INET,SOCK_DGRAM,0);
-    if(sockfd < 0){
-        perror("socket");
-        exit(1);
 
-    }
 
-    struct sockaddr_in target_addr;
-    memset(&target_addr, 0, sizeof(target_addr));
-    target_addr.sin_family = AF_INET;
-    target_addr.sin_port = htons(5000); //5000 portu için
-    target_addr.sin_addr.s_addr = inet_addr("127.0.0.1");
+
 
 
     while (1){
@@ -147,11 +167,6 @@ void udp_sender(snd_pcm_t *pcm_handle_c, snd_pcm_hw_params_t *params_c,snd_pcm_t
             perror("sendto");
         }
     }
-
-
-    
-    snd_pcm_close(pcm_handle_c);
-    close(sockfd);
 
 
 }
@@ -280,9 +295,10 @@ void codec_receiver(snd_pcm_t *pcm_handle_c, snd_pcm_hw_params_t *params_c,snd_p
     
     //playback
     int buffer_size=frame_size * channels * sample_size;
-    int16_t *buffer=malloc(buffer_size);    snd_pcm_hw_params_set_access(pcm_handle_p,params_p,SND_PCM_ACCESS_RW_INTERLEAVED);
+    int16_t *buffer=malloc(buffer_size);    
     int sample_rate=48000;
-
+    
+    snd_pcm_hw_params_set_access(pcm_handle_p,params_p,SND_PCM_ACCESS_RW_INTERLEAVED);
     snd_pcm_hw_params_set_format(pcm_handle_p,params_p,SND_PCM_FORMAT_S16_LE);
     snd_pcm_hw_params_set_channels(pcm_handle_p, params_p, channels);
     snd_pcm_hw_params_set_rate(pcm_handle_p,params_p,sample_rate,0);
@@ -334,7 +350,7 @@ void codec_receiver(snd_pcm_t *pcm_handle_c, snd_pcm_hw_params_t *params_c,snd_p
             }
         }
     }
-
+    
     
 };
 

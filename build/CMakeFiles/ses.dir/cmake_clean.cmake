@@ -5,6 +5,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/ses.dir/codec.c.o.d"
   "CMakeFiles/ses.dir/main.c.o"
   "CMakeFiles/ses.dir/main.c.o.d"
+  "CMakeFiles/ses.dir/udp.c.o"
+  "CMakeFiles/ses.dir/udp.c.o.d"
   "ses"
   "ses.pdb"
 )

@@ -201,6 +201,30 @@ main.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/ses.dir/build.make CMakeFiles/ses.dir/main.c.s
 .PHONY : main.c.s
 
+udp.o: udp.c.o
+.PHONY : udp.o
+
+# target to build an object file
+udp.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ses.dir/build.make CMakeFiles/ses.dir/udp.c.o
+.PHONY : udp.c.o
+
+udp.i: udp.c.i
+.PHONY : udp.i
+
+# target to preprocess a source file
+udp.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ses.dir/build.make CMakeFiles/ses.dir/udp.c.i
+.PHONY : udp.c.i
+
+udp.s: udp.c.s
+.PHONY : udp.s
+
+# target to generate assembly for a file
+udp.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ses.dir/build.make CMakeFiles/ses.dir/udp.c.s
+.PHONY : udp.c.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -219,6 +243,9 @@ help:
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
+	@echo "... udp.o"
+	@echo "... udp.i"
+	@echo "... udp.s"
 .PHONY : help
 
 

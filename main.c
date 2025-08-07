@@ -8,17 +8,6 @@ int main(int argc, char *argv[]) {
     snd_pcm_t *pcm_handle_c,*pcm_handle_p;
     snd_pcm_hw_params_t *params_c,*params_p;
 
-    //capture
-    snd_pcm_open(&pcm_handle_c,capture,SND_PCM_STREAM_CAPTURE,0);
-    snd_pcm_hw_params_malloc(&params_c);
-    snd_pcm_hw_params_any(pcm_handle_c,params_c);
-
-
-    //playback
-    snd_pcm_open(&pcm_handle_p,playback,SND_PCM_STREAM_PLAYBACK,0);
-    snd_pcm_hw_params_malloc(&params_p);
-    snd_pcm_hw_params_any(pcm_handle_p,params_p);
-
     //device info
     print_capture_device_info(pcm_handle_c,params_c);
     print_playback_device_info(pcm_handle_p,params_p);
