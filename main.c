@@ -39,9 +39,9 @@ int main(int argc, char *argv[]) {
         port = atoi(argv[8]);
         ip = argv[9];
         if (udp_mode == 0) {
-            udp_sender(capture, &pcm_handle_c, &params_c, frame_size, channels, sample_size, sample_rate, port, ip);
+            udp_sender(capture, pcm_handle_c, params_c, frame_size, channels, sample_size, sample_rate, port, ip);
         } else if (udp_mode == 1) {
-            codec_sender(capture, &pcm_handle_c, &params_c, frame_size, channels, sample_size, sample_rate, port, ip);
+            codec_sender(capture, pcm_handle_c, params_c, frame_size, channels, sample_size, sample_rate, port, ip);
         } else {
             printf("mode 0 = udp / mode 1 = codec+udp\n");
         }
@@ -55,11 +55,11 @@ int main(int argc, char *argv[]) {
         sample_rate = atoi(argv[7]);
         port = atoi(argv[8]);
         if (receiver_mode == 0) {
-            automatic_receiver(playback, &pcm_handle_p, &params_p, frame_size, channels, sample_size, sample_rate, port);
+            automatic_receiver(playback, pcm_handle_p, params_p, frame_size, channels, sample_size, sample_rate, port);
         } else if (receiver_mode == 1) {
-            udp_receiver(playback, &pcm_handle_p, &params_p, frame_size, channels, sample_size, sample_rate, port);
+            udp_receiver(playback, pcm_handle_p, params_p, frame_size, channels, sample_size, sample_rate, port);
         } else if (receiver_mode == 2) {
-            codec_receiver(playback, &pcm_handle_p, &params_p, frame_size, channels, sample_size, sample_rate, port);
+            codec_receiver(playback, pcm_handle_p, params_p, frame_size, channels, sample_size, sample_rate, port);
         } else {
             printf("mode 0 =automatic / mode 1 = udp / mode 2 = codec+udp\n");
         }
