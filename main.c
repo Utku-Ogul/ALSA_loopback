@@ -2,15 +2,69 @@
 
 int main(int argc, char *argv[]) {
 
-    const char* capture=argv[1];
-    const char* playback=argv[2];
+    const char* capture;
+    const char* playback;
 
     snd_pcm_t *pcm_handle_c,*pcm_handle_p;
     snd_pcm_hw_params_t *params_c,*params_p;
 
+    char condition = argv[1];
+
+    switch (condition)
+    {
+    case ('--device-info'):
+        capture= argv[2];
+        playback= argv[3];
+        print_capture_device_info(capture,pcm_handle_c,params_c);
+        print_playback_device_info(playback,pcm_handle_p,params_p);
+        break;
+    
+    case('--loopback'):
+        capture= argv[2];
+        playback= argv[3];
+        
+        loopback(pcm_handle_c, params_c, pcm_handle_p, params_p,1024, 1, 2, );
+
+
+        break;
+    default:
+        break;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     //device info
-    print_capture_device_info(pcm_handle_c,params_c);
-    print_playback_device_info(pcm_handle_p,params_p);
+    //print_capture_device_info(pcm_handle_c,params_c);
+    //print_playback_device_info(pcm_handle_p,params_p);
 
     //loopback
     //loopback(pcm_handle_c, params_c, pcm_handle_p, params_p,1024, 1, 2);
@@ -20,7 +74,7 @@ int main(int argc, char *argv[]) {
     //udp_receiver(pcm_handle_c, params_c, pcm_handle_p, params_p,1024, 1, 2);
 
     //opus codec
-    codec_sender(pcm_handle_c, params_c, pcm_handle_p, params_p,960, 1, 2);
+    //codec_sender(pcm_handle_c, params_c, pcm_handle_p, params_p,960, 1, 2);
     //codec_receiver(pcm_handle_c, params_c, pcm_handle_p, params_p,1024, 1, 2);
 
 

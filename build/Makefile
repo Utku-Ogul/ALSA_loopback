@@ -153,30 +153,6 @@ alsa.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/ses.dir/build.make CMakeFiles/ses.dir/alsa.c.s
 .PHONY : alsa.c.s
 
-codec.o: codec.c.o
-.PHONY : codec.o
-
-# target to build an object file
-codec.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ses.dir/build.make CMakeFiles/ses.dir/codec.c.o
-.PHONY : codec.c.o
-
-codec.i: codec.c.i
-.PHONY : codec.i
-
-# target to preprocess a source file
-codec.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ses.dir/build.make CMakeFiles/ses.dir/codec.c.i
-.PHONY : codec.c.i
-
-codec.s: codec.c.s
-.PHONY : codec.s
-
-# target to generate assembly for a file
-codec.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ses.dir/build.make CMakeFiles/ses.dir/codec.c.s
-.PHONY : codec.c.s
-
 main.o: main.c.o
 .PHONY : main.o
 
@@ -225,6 +201,30 @@ udp.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/ses.dir/build.make CMakeFiles/ses.dir/udp.c.s
 .PHONY : udp.c.s
 
+udp_codec.o: udp_codec.c.o
+.PHONY : udp_codec.o
+
+# target to build an object file
+udp_codec.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ses.dir/build.make CMakeFiles/ses.dir/udp_codec.c.o
+.PHONY : udp_codec.c.o
+
+udp_codec.i: udp_codec.c.i
+.PHONY : udp_codec.i
+
+# target to preprocess a source file
+udp_codec.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ses.dir/build.make CMakeFiles/ses.dir/udp_codec.c.i
+.PHONY : udp_codec.c.i
+
+udp_codec.s: udp_codec.c.s
+.PHONY : udp_codec.s
+
+# target to generate assembly for a file
+udp_codec.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ses.dir/build.make CMakeFiles/ses.dir/udp_codec.c.s
+.PHONY : udp_codec.c.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -237,15 +237,15 @@ help:
 	@echo "... alsa.o"
 	@echo "... alsa.i"
 	@echo "... alsa.s"
-	@echo "... codec.o"
-	@echo "... codec.i"
-	@echo "... codec.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
 	@echo "... udp.o"
 	@echo "... udp.i"
 	@echo "... udp.s"
+	@echo "... udp_codec.o"
+	@echo "... udp_codec.i"
+	@echo "... udp_codec.s"
 .PHONY : help
 
 

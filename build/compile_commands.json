@@ -13,9 +13,9 @@
 },
 {
   "directory": "/home/mjin/Desktop/internship/task/build",
-  "command": "/usr/bin/gcc  -I/usr/include/opus -I/home/mjin/Desktop/internship/task -g -std=gnu99 -o CMakeFiles/ses.dir/codec.c.o -c /home/mjin/Desktop/internship/task/codec.c",
-  "file": "/home/mjin/Desktop/internship/task/codec.c",
-  "output": "CMakeFiles/ses.dir/codec.c.o"
+  "command": "/usr/bin/gcc  -I/usr/include/opus -I/home/mjin/Desktop/internship/task -g -std=gnu99 -o CMakeFiles/ses.dir/udp_codec.c.o -c /home/mjin/Desktop/internship/task/udp_codec.c",
+  "file": "/home/mjin/Desktop/internship/task/udp_codec.c",
+  "output": "CMakeFiles/ses.dir/udp_codec.c.o"
 },
 {
   "directory": "/home/mjin/Desktop/internship/task/build",

@@ -14,13 +14,12 @@
 
 extern const snd_pcm_format_t test_formats[];
 
-void print_capture_device_info(snd_pcm_t *pcm_handle_c, snd_pcm_hw_params_t *params_c);
-void print_playback_device_info(snd_pcm_t *pcm_handle_p, snd_pcm_hw_params_t *params_p);
-void loopback(snd_pcm_t *pcm_handle_c, snd_pcm_hw_params_t *params_c,snd_pcm_t *pcm_handle_p, snd_pcm_hw_params_t *params_p,int frame_size,int channels, int sample_size);
-void udp_sender(snd_pcm_t *pcm_handle_c, snd_pcm_hw_params_t *params_c,snd_pcm_t *pcm_handle_p, snd_pcm_hw_params_t *params_p,int frame_size,int channels, int sample_size);
-void udp_receiver(snd_pcm_t *pcm_handle_c, snd_pcm_hw_params_t *params_c,snd_pcm_t *pcm_handle_p, snd_pcm_hw_params_t *params_p,int frame_size,int channels, int sample_size);
-void codec_sender(snd_pcm_t *pcm_handle_c, snd_pcm_hw_params_t *params_c,snd_pcm_t *pcm_handle_p, snd_pcm_hw_params_t *params_p,int frame_size,int channels, int sample_size);
-void codec_receiver(snd_pcm_t *pcm_handle_c, snd_pcm_hw_params_t *params_c,snd_pcm_t *pcm_handle_p, snd_pcm_hw_params_t *params_p,int frame_size,int channels, int sample_size);
+int open_capture_device(const char *capture, snd_pcm_t **pcm_handle_c, snd_pcm_hw_params_t **params_c,int channels, int sample_rate);
+int open_playback_device(const char *playback,snd_pcm_t **pcm_handle_p, snd_pcm_hw_params_t **params_p, int channels, int sample_rate);
+void print_capture_device_info(const char capture, snd_pcm_t *pcm_handle_c, snd_pcm_hw_params_t *params_c);
+void print_playback_device_info(const char *playback,snd_pcm_t *pcm_handle_p, snd_pcm_hw_params_t *params_p);
+void loopback(const char *capture,const char *playback ,snd_pcm_t **pcm_handle_c, snd_pcm_hw_params_t **params_c,snd_pcm_t **pcm_handle_p, snd_pcm_hw_params_t **params_p,int frame_size,int channels,int sample_rate ,int sample_size);
+
 
 
 #endif 
