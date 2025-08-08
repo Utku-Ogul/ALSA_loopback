@@ -117,7 +117,7 @@ void print_playback_device_info(const char *playback,snd_pcm_t *pcm_handle_p, sn
 
 
 
-void loopback(const char *capture,const char *playback ,snd_pcm_t **pcm_handle_c, snd_pcm_hw_params_t **params_c,snd_pcm_t **pcm_handle_p, snd_pcm_hw_params_t **params_p,int frame_size,int channels,int sample_rate ,int sample_size){
+void loopback(const char *capture,const char *playback ,snd_pcm_t **pcm_handle_c, snd_pcm_hw_params_t **params_c,snd_pcm_t **pcm_handle_p, snd_pcm_hw_params_t **params_p,int frame_size,int channels,int sample_size, int sample_rate ){
 
     int buffer_size=frame_size * channels * sample_size;
     int16_t *buffer=malloc(buffer_size);

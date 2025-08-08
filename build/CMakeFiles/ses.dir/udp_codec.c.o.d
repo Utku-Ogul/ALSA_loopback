@@ -1,6 +1,7 @@
-CMakeFiles/ses.dir/alsa.c.o: /home/mjin/Desktop/internship/task/alsa.c \
- /usr/include/stdc-predef.h /home/mjin/Desktop/internship/task/alsa.h \
- /usr/include/stdio.h \
+CMakeFiles/ses.dir/udp_codec.c.o: \
+ /home/mjin/Desktop/internship/task/udp_codec.c \
+ /usr/include/stdc-predef.h \
+ /home/mjin/Desktop/internship/task/udp_codec.h /usr/include/stdio.h \
  /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
  /usr/include/features.h /usr/include/features-time64.h \
  /usr/include/x86_64-linux-gnu/bits/wordsize.h \
@@ -103,5 +104,4 @@ CMakeFiles/ses.dir/alsa.c.o: /home/mjin/Desktop/internship/task/alsa.c \
  /usr/include/asm-generic/sockios.h \
  /usr/include/x86_64-linux-gnu/bits/types/struct_osockaddr.h \
  /usr/include/x86_64-linux-gnu/bits/in.h /usr/include/opus/opus.h \
- /usr/include/opus/opus_types.h /usr/include/opus/opus_defines.h \
- /home/mjin/Desktop/internship/task/udp.h
+ /usr/include/opus/opus_types.h /usr/include/opus/opus_defines.h
