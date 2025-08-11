@@ -409,6 +409,7 @@ CMakeFiles/ses.dir/udp.c.o: /home/mjin/Desktop/internship/task/udp.c \
   /usr/lib/gcc/x86_64-linux-gnu/13/include/stdint.h
 
 CMakeFiles/ses.dir/udp_codec.c.o: /home/mjin/Desktop/internship/task/udp_codec.c \
+  /home/mjin/Desktop/internship/task/alsa.h \
   /home/mjin/Desktop/internship/task/udp_codec.h \
   /usr/include/alloca.h \
   /usr/include/alsa/asoundef.h \

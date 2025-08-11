@@ -6,7 +6,7 @@ void codec_sender(const char *capture,snd_pcm_t *pcm_handle_c, snd_pcm_hw_params
     int16_t *buffer=malloc(buffer_size);
     
     //capture
-    if (open_capture_device(capture, pcm_handle_c, params_c, channels, sample_rate)!=0){
+    if (open_capture_device(capture, &pcm_handle_c, &params_c, channels, sample_rate)!=0){
         fprintf(stderr,"codec-open_capture_device!!!");
         return;
     };
@@ -63,10 +63,11 @@ void codec_receiver(const char *playback, snd_pcm_t *pcm_handle_p, snd_pcm_hw_pa
     AudioPacket packet;
     //playback
     int buffer_size=frame_size * channels * sample_size;
-    int16_t *buffer=malloc(buffer_size);    snd_pcm_hw_params_set_access(pcm_handle_p,params_p,SND_PCM_ACCESS_RW_INTERLEAVED);
+    int16_t *buffer=malloc(buffer_size);    
+    snd_pcm_hw_params_set_access(pcm_handle_p,params_p,SND_PCM_ACCESS_RW_INTERLEAVED);
     
 
-    if(open_playback_device(playback, pcm_handle_p, params_p, channels, sample_rate)!=0){
+    if(open_playback_device(playback, &pcm_handle_p, &params_p, channels, sample_rate)!=0){
         fprintf(stderr, "codec-open_playback_device!!!");
         return;
     };
@@ -121,10 +122,11 @@ void automatic_receiver(const char *playback, snd_pcm_t *pcm_handle_p, snd_pcm_h
     AudioPacket packet;
     //playback
     int buffer_size=frame_size * channels * sample_size;
-    int16_t *buffer=malloc(buffer_size);    snd_pcm_hw_params_set_access(pcm_handle_p,params_p,SND_PCM_ACCESS_RW_INTERLEAVED);
+    int16_t *buffer=malloc(buffer_size);    
+    snd_pcm_hw_params_set_access(pcm_handle_p,params_p,SND_PCM_ACCESS_RW_INTERLEAVED);
     
 
-    if(open_playback_device(playback, pcm_handle_p, params_p, channels, sample_rate)!=0){
+    if(open_playback_device(playback, &pcm_handle_p, &params_p, channels, sample_rate)!=0){
         fprintf(stderr, "codec-open_playback_device!!!");
         return;
     };

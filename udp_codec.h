@@ -9,6 +9,7 @@
 #include <arpa/inet.h>
 #include <sys/socket.h>
 #include <opus/opus.h>
+#include "alsa.h"
 
 typedef struct{
     uint8_t codec_type;

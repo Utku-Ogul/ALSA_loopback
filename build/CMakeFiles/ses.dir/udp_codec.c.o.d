@@ -104,4 +104,5 @@ CMakeFiles/ses.dir/udp_codec.c.o: \
  /usr/include/asm-generic/sockios.h \
  /usr/include/x86_64-linux-gnu/bits/types/struct_osockaddr.h \
  /usr/include/x86_64-linux-gnu/bits/in.h /usr/include/opus/opus.h \
- /usr/include/opus/opus_types.h /usr/include/opus/opus_defines.h
+ /usr/include/opus/opus_types.h /usr/include/opus/opus_defines.h \
+ /home/mjin/Desktop/internship/task/alsa.h
