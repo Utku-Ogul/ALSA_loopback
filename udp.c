@@ -1,12 +1,13 @@
 #include "udp.h"
 
-void udp_sender(const char *capture, snd_pcm_t *pcm_handle_c, snd_pcm_hw_params_t *params_c,int frame_size,int channels, int sample_size, int sample_rate,int port ,char ip){
+void udp_sender(const char *capture, snd_pcm_t *pcm_handle_c, snd_pcm_hw_params_t *params_c,int frame_size,int channels, int sample_size, int sample_rate,int port ,const char *ip){
     
     int buffer_size=frame_size * channels * sample_size;
     int16_t *buffer=malloc(buffer_size);
 
+    
     //capture
-    if (open_capture_device(capture, pcm_handle_c, params_c, channels, sample_rate)!=0){
+    if (open_capture_device(capture, &pcm_handle_c, &params_c, channels, sample_rate)!=0){
         fprintf(stderr,"udp-open_capture_device!!!");
         return;
     };
@@ -47,7 +48,7 @@ void udp_receiver(const char *playback, snd_pcm_t *pcm_handle_p, snd_pcm_hw_para
     int buffer_size=frame_size * channels * sample_size;
     int16_t *buffer=malloc(buffer_size);
         
-    if (open_playback_device(playback, pcm_handle_p, params_p, channels, sample_rate)!=0){
+    if (open_playback_device(playback, &pcm_handle_p, &params_p, channels, sample_rate)!=0){
         fprintf(stderr,"udp-open_playback_device!!!");
         return;
     };
