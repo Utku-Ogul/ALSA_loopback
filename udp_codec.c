@@ -64,14 +64,14 @@ void codec_receiver(const char *playback, snd_pcm_t *pcm_handle_p, snd_pcm_hw_pa
     //playback
     int buffer_size=frame_size * channels * sample_size;
     int16_t *buffer=malloc(buffer_size);    
-    snd_pcm_hw_params_set_access(pcm_handle_p,params_p,SND_PCM_ACCESS_RW_INTERLEAVED);
     
-
+    
     if(open_playback_device(playback, &pcm_handle_p, &params_p, channels, sample_rate)!=0){
         fprintf(stderr, "codec-open_playback_device!!!");
         return;
     };
-
+    
+    snd_pcm_hw_params_set_access(pcm_handle_p,params_p,SND_PCM_ACCESS_RW_INTERLEAVED);
     
     //decoder
     int opus_err;
@@ -123,14 +123,14 @@ void automatic_receiver(const char *playback, snd_pcm_t *pcm_handle_p, snd_pcm_h
     //playback
     int buffer_size=frame_size * channels * sample_size;
     int16_t *buffer=malloc(buffer_size);    
-    snd_pcm_hw_params_set_access(pcm_handle_p,params_p,SND_PCM_ACCESS_RW_INTERLEAVED);
     
-
+    
     if(open_playback_device(playback, &pcm_handle_p, &params_p, channels, sample_rate)!=0){
         fprintf(stderr, "codec-open_playback_device!!!");
         return;
     };
-
+    
+    snd_pcm_hw_params_set_access(pcm_handle_p,params_p,SND_PCM_ACCESS_RW_INTERLEAVED);
     
     //decoder
     int opus_err;
@@ -177,7 +177,7 @@ void automatic_receiver(const char *playback, snd_pcm_t *pcm_handle_p, snd_pcm_h
                 }
             }else {
                 
-                void udp_receiver(const char *playback, snd_pcm_t *pcm_handle_p, snd_pcm_hw_params_t *params_p,int frame_size,int channels, int sample_size, int sample_rate, int port);
+                udp_receiver(playback, pcm_handle_p,params_p, frame_size, channels, sample_size, sample_rate, port);
 
             }
         }
