@@ -3,6 +3,7 @@
 
 CMakeFiles/ses.dir/alsa.c.o: /home/mjin/Desktop/internship/task/alsa.c \
   /home/mjin/Desktop/internship/task/alsa.h \
+  /home/mjin/Desktop/internship/task/audiopacket.h \
   /home/mjin/Desktop/internship/task/udp.h \
   /usr/include/alloca.h \
   /usr/include/alsa/asoundef.h \
@@ -138,6 +139,7 @@ CMakeFiles/ses.dir/alsa.c.o: /home/mjin/Desktop/internship/task/alsa.c \
 
 CMakeFiles/ses.dir/main.c.o: /home/mjin/Desktop/internship/task/main.c \
   /home/mjin/Desktop/internship/task/alsa.h \
+  /home/mjin/Desktop/internship/task/audiopacket.h \
   /home/mjin/Desktop/internship/task/main.h \
   /home/mjin/Desktop/internship/task/udp.h \
   /home/mjin/Desktop/internship/task/udp_codec.h \
@@ -275,6 +277,7 @@ CMakeFiles/ses.dir/main.c.o: /home/mjin/Desktop/internship/task/main.c \
 
 CMakeFiles/ses.dir/udp.c.o: /home/mjin/Desktop/internship/task/udp.c \
   /home/mjin/Desktop/internship/task/alsa.h \
+  /home/mjin/Desktop/internship/task/audiopacket.h \
   /home/mjin/Desktop/internship/task/udp.h \
   /usr/include/alloca.h \
   /usr/include/alsa/asoundef.h \
@@ -410,6 +413,7 @@ CMakeFiles/ses.dir/udp.c.o: /home/mjin/Desktop/internship/task/udp.c \
 
 CMakeFiles/ses.dir/udp_codec.c.o: /home/mjin/Desktop/internship/task/udp_codec.c \
   /home/mjin/Desktop/internship/task/alsa.h \
+  /home/mjin/Desktop/internship/task/audiopacket.h \
   /home/mjin/Desktop/internship/task/udp_codec.h \
   /usr/include/alloca.h \
   /usr/include/alsa/asoundef.h \
@@ -556,6 +560,8 @@ CMakeFiles/ses.dir/udp_codec.c.o: /home/mjin/Desktop/internship/task/udp_codec.c
 
 /usr/include/x86_64-linux-gnu/sys/socket.h:
 
+/usr/include/x86_64-linux-gnu/sys/cdefs.h:
+
 /usr/include/x86_64-linux-gnu/asm/sockios.h:
 
 /usr/include/linux/posix_types.h:
@@ -596,13 +602,7 @@ CMakeFiles/ses.dir/udp_codec.c.o: /home/mjin/Desktop/internship/task/udp_codec.c
 
 /usr/include/x86_64-linux-gnu/bits/types/timer_t.h:
 
-/usr/include/x86_64-linux-gnu/sys/select.h:
-
-/usr/include/unistd.h:
-
-/usr/include/x86_64-linux-gnu/bits/stdint-uintn.h:
-
-/home/mjin/Desktop/internship/task/alsa.c:
+/usr/include/linux/errno.h:
 
 /usr/include/opus/opus_defines.h:
 
@@ -615,6 +615,18 @@ CMakeFiles/ses.dir/udp_codec.c.o: /home/mjin/Desktop/internship/task/udp_codec.c
 /usr/include/alsa/input.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/clockid_t.h:
+
+/home/mjin/Desktop/internship/task/alsa.c:
+
+/usr/include/x86_64-linux-gnu/bits/fcntl.h:
+
+/usr/include/alsa/mixer.h:
+
+/usr/include/x86_64-linux-gnu/sys/select.h:
+
+/usr/include/unistd.h:
+
+/usr/include/x86_64-linux-gnu/bits/stdint-uintn.h:
 
 /home/mjin/Desktop/internship/task/alsa.h:
 
@@ -631,10 +643,6 @@ CMakeFiles/ses.dir/udp_codec.c.o: /home/mjin/Desktop/internship/task/udp_codec.c
 /usr/include/opus/opus.h:
 
 /usr/include/x86_64-linux-gnu/bits/waitflags.h:
-
-/usr/include/x86_64-linux-gnu/bits/atomic_wide_counter.h:
-
-/usr/include/x86_64-linux-gnu/bits/stat.h:
 
 /usr/include/alsa/error.h:
 
@@ -676,6 +684,8 @@ CMakeFiles/ses.dir/udp_codec.c.o: /home/mjin/Desktop/internship/task/udp_codec.c
 
 /home/mjin/Desktop/internship/task/udp.h:
 
+/home/mjin/Desktop/internship/task/audiopacket.h:
+
 /usr/include/asm-generic/sockios.h:
 
 /usr/include/alsa/asoundef.h:
@@ -702,11 +712,9 @@ CMakeFiles/ses.dir/udp_codec.c.o: /home/mjin/Desktop/internship/task/udp_codec.c
 
 /usr/include/alsa/seq_event.h:
 
-/usr/include/linux/errno.h:
+/usr/include/x86_64-linux-gnu/bits/atomic_wide_counter.h:
 
-/usr/include/alsa/mixer.h:
-
-/usr/include/x86_64-linux-gnu/bits/fcntl.h:
+/usr/include/x86_64-linux-gnu/bits/stat.h:
 
 /usr/include/x86_64-linux-gnu/bits/confname.h:
 
@@ -805,8 +813,6 @@ CMakeFiles/ses.dir/udp_codec.c.o: /home/mjin/Desktop/internship/task/udp_codec.c
 /usr/include/alsa/seq.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/struct_timeval.h:
-
-/usr/include/x86_64-linux-gnu/sys/cdefs.h:
 
 /usr/include/x86_64-linux-gnu/bits/stdlib-float.h:
 

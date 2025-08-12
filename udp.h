@@ -1,7 +1,7 @@
 #ifndef UDP_H
 #define UDP_H
 
-
+#include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -9,6 +9,7 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include "alsa.h"
+#include "audiopacket.h"
 
 
 void udp_sender(const char *capture, snd_pcm_t *pcm_handle_c, snd_pcm_hw_params_t *params_c,int frame_size,int channels, int sample_size, int sample_rate,int port ,const char *ip);

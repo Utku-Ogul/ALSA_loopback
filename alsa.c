@@ -10,6 +10,19 @@ const snd_pcm_format_t test_formats[] = {
     SND_PCM_FORMAT_FLOAT64_LE
 };
 
+void list_devices(void){
+    void **hints;
+
+    int err = snd_device_name_hint(-1,"pcm",&hints);//-1 tümcihazlar için
+    if (err != 0) {
+        fprintf(stderr, "snd_device_name_hint: %s\n", snd_strerror(err));
+    }
+
+
+    
+
+};
+
 int open_capture_device(const char *capture, snd_pcm_t **pcm_handle_c, snd_pcm_hw_params_t **params_c, int channels, int sample_rate) {
     if (snd_pcm_open(pcm_handle_c, capture, SND_PCM_STREAM_CAPTURE, 0) < 0) {
         fprintf(stderr, "Capture device open error!\n");

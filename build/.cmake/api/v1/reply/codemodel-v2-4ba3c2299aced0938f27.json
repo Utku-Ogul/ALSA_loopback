@@ -6,7 +6,7 @@
 			[
 				{
 					"build" : ".",
-					"jsonFile" : "directory-.-f5ebdc15457944623624.json",
+					"jsonFile" : "directory-.-Debug-f5ebdc15457944623624.json",
 					"minimumCMakeVersion" : 
 					{
 						"string" : "3.20"
@@ -19,7 +19,7 @@
 					]
 				}
 			],
-			"name" : "",
+			"name" : "Debug",
 			"projects" : 
 			[
 				{
@@ -39,7 +39,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "ses::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-ses-2d2ae9715ebac4e77ae9.json",
+					"jsonFile" : "target-ses-Debug-aa94b7947c9e27ddfefd.json",
 					"name" : "ses",
 					"projectIndex" : 0
 				}

@@ -73,57 +73,57 @@ CMakeFiles/ses.dir/main.c.o: CMakeFiles/ses.dir/flags.make
 CMakeFiles/ses.dir/main.c.o: /home/mjin/Desktop/internship/task/main.c
 CMakeFiles/ses.dir/main.c.o: CMakeFiles/ses.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/mjin/Desktop/internship/task/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/ses.dir/main.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/ses.dir/main.c.o -MF CMakeFiles/ses.dir/main.c.o.d -o CMakeFiles/ses.dir/main.c.o -c /home/mjin/Desktop/internship/task/main.c
+	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/ses.dir/main.c.o -MF CMakeFiles/ses.dir/main.c.o.d -o CMakeFiles/ses.dir/main.c.o -c /home/mjin/Desktop/internship/task/main.c
 
 CMakeFiles/ses.dir/main.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/ses.dir/main.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/mjin/Desktop/internship/task/main.c > CMakeFiles/ses.dir/main.c.i
+	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/mjin/Desktop/internship/task/main.c > CMakeFiles/ses.dir/main.c.i
 
 CMakeFiles/ses.dir/main.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/ses.dir/main.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/mjin/Desktop/internship/task/main.c -o CMakeFiles/ses.dir/main.c.s
+	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/mjin/Desktop/internship/task/main.c -o CMakeFiles/ses.dir/main.c.s
 
 CMakeFiles/ses.dir/alsa.c.o: CMakeFiles/ses.dir/flags.make
 CMakeFiles/ses.dir/alsa.c.o: /home/mjin/Desktop/internship/task/alsa.c
 CMakeFiles/ses.dir/alsa.c.o: CMakeFiles/ses.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/mjin/Desktop/internship/task/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/ses.dir/alsa.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/ses.dir/alsa.c.o -MF CMakeFiles/ses.dir/alsa.c.o.d -o CMakeFiles/ses.dir/alsa.c.o -c /home/mjin/Desktop/internship/task/alsa.c
+	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/ses.dir/alsa.c.o -MF CMakeFiles/ses.dir/alsa.c.o.d -o CMakeFiles/ses.dir/alsa.c.o -c /home/mjin/Desktop/internship/task/alsa.c
 
 CMakeFiles/ses.dir/alsa.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/ses.dir/alsa.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/mjin/Desktop/internship/task/alsa.c > CMakeFiles/ses.dir/alsa.c.i
+	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/mjin/Desktop/internship/task/alsa.c > CMakeFiles/ses.dir/alsa.c.i
 
 CMakeFiles/ses.dir/alsa.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/ses.dir/alsa.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/mjin/Desktop/internship/task/alsa.c -o CMakeFiles/ses.dir/alsa.c.s
+	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/mjin/Desktop/internship/task/alsa.c -o CMakeFiles/ses.dir/alsa.c.s
 
 CMakeFiles/ses.dir/udp_codec.c.o: CMakeFiles/ses.dir/flags.make
 CMakeFiles/ses.dir/udp_codec.c.o: /home/mjin/Desktop/internship/task/udp_codec.c
 CMakeFiles/ses.dir/udp_codec.c.o: CMakeFiles/ses.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/mjin/Desktop/internship/task/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object CMakeFiles/ses.dir/udp_codec.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/ses.dir/udp_codec.c.o -MF CMakeFiles/ses.dir/udp_codec.c.o.d -o CMakeFiles/ses.dir/udp_codec.c.o -c /home/mjin/Desktop/internship/task/udp_codec.c
+	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/ses.dir/udp_codec.c.o -MF CMakeFiles/ses.dir/udp_codec.c.o.d -o CMakeFiles/ses.dir/udp_codec.c.o -c /home/mjin/Desktop/internship/task/udp_codec.c
 
 CMakeFiles/ses.dir/udp_codec.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/ses.dir/udp_codec.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/mjin/Desktop/internship/task/udp_codec.c > CMakeFiles/ses.dir/udp_codec.c.i
+	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/mjin/Desktop/internship/task/udp_codec.c > CMakeFiles/ses.dir/udp_codec.c.i
 
 CMakeFiles/ses.dir/udp_codec.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/ses.dir/udp_codec.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/mjin/Desktop/internship/task/udp_codec.c -o CMakeFiles/ses.dir/udp_codec.c.s
+	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/mjin/Desktop/internship/task/udp_codec.c -o CMakeFiles/ses.dir/udp_codec.c.s
 
 CMakeFiles/ses.dir/udp.c.o: CMakeFiles/ses.dir/flags.make
 CMakeFiles/ses.dir/udp.c.o: /home/mjin/Desktop/internship/task/udp.c
 CMakeFiles/ses.dir/udp.c.o: CMakeFiles/ses.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/mjin/Desktop/internship/task/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building C object CMakeFiles/ses.dir/udp.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/ses.dir/udp.c.o -MF CMakeFiles/ses.dir/udp.c.o.d -o CMakeFiles/ses.dir/udp.c.o -c /home/mjin/Desktop/internship/task/udp.c
+	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/ses.dir/udp.c.o -MF CMakeFiles/ses.dir/udp.c.o.d -o CMakeFiles/ses.dir/udp.c.o -c /home/mjin/Desktop/internship/task/udp.c
 
 CMakeFiles/ses.dir/udp.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/ses.dir/udp.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/mjin/Desktop/internship/task/udp.c > CMakeFiles/ses.dir/udp.c.i
+	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/mjin/Desktop/internship/task/udp.c > CMakeFiles/ses.dir/udp.c.i
 
 CMakeFiles/ses.dir/udp.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/ses.dir/udp.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/mjin/Desktop/internship/task/udp.c -o CMakeFiles/ses.dir/udp.c.s
+	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/mjin/Desktop/internship/task/udp.c -o CMakeFiles/ses.dir/udp.c.s
 
 # Object files for target ses
 ses_OBJECTS = \

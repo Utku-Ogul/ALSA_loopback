@@ -9,12 +9,13 @@ int main(int argc, char *argv[]) {
     snd_pcm_hw_params_t *params_c = NULL, *params_p = NULL;
     int frame_size, channels, sample_size, sample_rate, udp_mode, port, receiver_mode;
 
-    if (argc < 2) {
-        printf("Kullanım: %s <komut> [...]\n", argv[0]);
-        return 1;
-    }
 
-    if (strcmp(argv[1], "--device-info") == 0) {
+
+    if (strcmp(argv[1],"--list-devices") == 0){ 
+
+
+
+    }else if (strcmp(argv[1], "--device-info") == 0) {
         capture = argv[2];
         playback = argv[3];
         print_capture_device_info(capture, &pcm_handle_c, &params_c);

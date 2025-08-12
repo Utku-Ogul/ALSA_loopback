@@ -1,6 +1,6 @@
 CMakeFiles/ses.dir/udp.c.o: /home/mjin/Desktop/internship/task/udp.c \
  /usr/include/stdc-predef.h /home/mjin/Desktop/internship/task/udp.h \
- /usr/include/stdio.h \
+ /usr/lib/gcc/x86_64-linux-gnu/13/include/stddef.h /usr/include/stdio.h \
  /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
  /usr/include/features.h /usr/include/features-time64.h \
  /usr/include/x86_64-linux-gnu/bits/wordsize.h \
@@ -9,7 +9,6 @@ CMakeFiles/ses.dir/udp.c.o: /home/mjin/Desktop/internship/task/udp.c \
  /usr/include/x86_64-linux-gnu/bits/long-double.h \
  /usr/include/x86_64-linux-gnu/gnu/stubs.h \
  /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
- /usr/lib/gcc/x86_64-linux-gnu/13/include/stddef.h \
  /usr/lib/gcc/x86_64-linux-gnu/13/include/stdarg.h \
  /usr/include/x86_64-linux-gnu/bits/types.h \
  /usr/include/x86_64-linux-gnu/bits/typesizes.h \
@@ -105,4 +104,5 @@ CMakeFiles/ses.dir/udp.c.o: /home/mjin/Desktop/internship/task/udp.c \
  /usr/include/alsa/seq_event.h /usr/include/alsa/seq.h \
  /usr/include/alsa/seqmid.h /usr/include/alsa/seq_midi_event.h \
  /usr/include/opus/opus.h /usr/include/opus/opus_types.h \
- /usr/include/opus/opus_defines.h
+ /usr/include/opus/opus_defines.h \
+ /home/mjin/Desktop/internship/task/audiopacket.h
