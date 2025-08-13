@@ -39,9 +39,15 @@ void  codec_sender(const char *capture,snd_pcm_t *pcm_handle_c, snd_pcm_hw_param
     while (1){
         snd_pcm_readi(pcm_handle_c, buffer, frame_size);
 
-        packet.data_length = opus_encode(encoder, buffer, frame_size, packet.payload ,4000 );
 
-        ssize_t sent = sendto(sockfd, &packet , sizeof(packet), 0, (struct sockaddr *)&target_addr ,sizeof(target_addr));
+        int nbytes= opus_encode(encoder, buffer, frame_size, (unsigned char *)packet.payload, 4000);
+        
+
+
+
+        packet.data_length = htons((uint16_t)nbytes);
+
+        ssize_t sent = sendto(sockfd, &packet , offsetof(AudioPacket, payload)+nbytes, 0, (struct sockaddr *)&target_addr ,sizeof(target_addr));
 
         if (sent<0){
             perror("sendto");
@@ -84,9 +90,10 @@ int  codec_receiver(const char *playback, snd_pcm_t *pcm_handle_p, snd_pcm_hw_pa
     struct sockaddr_in recv_addr, sender_addr;
     socklen_t addr_len = sizeof(sender_addr);
 
+    memset(&recv_addr, 0, sizeof(recv_addr)); 
     recv_addr.sin_family=AF_INET;
     recv_addr.sin_port=htons(port);
-    recv_addr.sin_addr.s_addr=INADDR_ANY ; // local harici için INADDR_ANY local inet_addr("127.0.0.1")
+    recv_addr.sin_addr.s_addr=htonl(INADDR_ANY) ; // local harici için INADDR_ANY local inet_addr("127.0.0.1")
 
     bind(sockfd, (struct sockaddr*)&recv_addr, sizeof(recv_addr) );
 
@@ -94,17 +101,14 @@ int  codec_receiver(const char *playback, snd_pcm_t *pcm_handle_p, snd_pcm_hw_pa
     {
 
         ssize_t recv_len = recvfrom(sockfd,&packet, sizeof(packet), 0, (struct sockaddr*)&sender_addr,&addr_len);
-        if(packet.codec_type==0){
-            close(sockfd);
-            return 1;
-        }
+
         
         if(recv_len <0){
             perror("recvfrom");
             continue;
         }else if(recv_len>0){
-
-            int decoded_samples= opus_decode(decoder,(unsigned char*)packet.payload ,packet.data_length,decoded_buffer,frame_size,0);
+            uint16_t payload_len = ntohs(packet.data_length);
+            int decoded_samples= opus_decode(decoder,(unsigned char*)packet.payload ,payload_len,decoded_buffer,frame_size,0);
             
             int err=snd_pcm_writei(pcm_handle_p,decoded_buffer,decoded_samples);
 

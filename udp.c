@@ -81,10 +81,7 @@ int udp_receiver(const char *playback, snd_pcm_t *pcm_handle_p, snd_pcm_hw_param
     {
         ssize_t recv_len = recvfrom(sockfd, &packet,sizeof(packet), 0, (struct sockaddr*)&sender_addr,&addr_len);
         
-        if(packet.codec_type==1){
-            close(sockfd);
-            return 1;
-        }
+        
 
         if(packet.codec_type!=0){
             fprintf(stderr, "incorrect type");
