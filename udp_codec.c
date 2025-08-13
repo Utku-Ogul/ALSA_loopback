@@ -95,6 +95,7 @@ int  codec_receiver(const char *playback, snd_pcm_t *pcm_handle_p, snd_pcm_hw_pa
 
         ssize_t recv_len = recvfrom(sockfd,&packet, sizeof(packet), 0, (struct sockaddr*)&sender_addr,&addr_len);
         if(packet.codec_type==0){
+            close(sockfd);
             return 1;
         }
         

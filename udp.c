@@ -53,7 +53,6 @@ int udp_receiver(const char *playback, snd_pcm_t *pcm_handle_p, snd_pcm_hw_param
     AudioPacket packet;
     if (open_playback_device(playback, &pcm_handle_p, &params_p, channels, sample_rate)!=0){
         fprintf(stderr,"udp-open_playback_device!!!");
-        return;
     };
     
     
@@ -83,6 +82,7 @@ int udp_receiver(const char *playback, snd_pcm_t *pcm_handle_p, snd_pcm_hw_param
         ssize_t recv_len = recvfrom(sockfd, &packet,sizeof(packet), 0, (struct sockaddr*)&sender_addr,&addr_len);
         
         if(packet.codec_type==1){
+            close(sockfd);
             return 1;
         }
 
