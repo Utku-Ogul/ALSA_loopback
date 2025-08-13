@@ -48,7 +48,7 @@ void udp_sender(const char *capture, snd_pcm_t *pcm_handle_c, snd_pcm_hw_params_
 
 }
 
-void udp_receiver(const char *playback, snd_pcm_t *pcm_handle_p, snd_pcm_hw_params_t *params_p,int frame_size,int channels, int sample_size, int sample_rate, int port){
+void udp_receiver(const char *playback, snd_pcm_t *pcm_handle_p, snd_pcm_hw_params_t *params_p, int channels, int sample_size, int sample_rate, int port){
 
     AudioPacket packet;
     if (open_playback_device(playback, &pcm_handle_p, &params_p, channels, sample_rate)!=0){
@@ -104,4 +104,4 @@ void udp_receiver(const char *playback, snd_pcm_t *pcm_handle_p, snd_pcm_hw_para
         }
     }
 
-}; 
+};  

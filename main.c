@@ -12,8 +12,8 @@ int main(int argc, char *argv[]) {
 
 
     if (strcmp(argv[1],"--list-devices") == 0){ 
-
-
+        list_devices();
+        return 0;
 
     }else if (strcmp(argv[1], "--device-info") == 0) {
         capture = argv[2];
@@ -58,7 +58,7 @@ int main(int argc, char *argv[]) {
         if (receiver_mode == 0) {
             automatic_receiver(playback, pcm_handle_p, params_p, frame_size, channels, sample_size, sample_rate, port);
         } else if (receiver_mode == 1) {
-            udp_receiver(playback, pcm_handle_p, params_p, frame_size, channels, sample_size, sample_rate, port);
+            udp_receiver(playback, pcm_handle_p, params_p, channels, sample_size, sample_rate, port);
         } else if (receiver_mode == 2) {
             codec_receiver(playback, pcm_handle_p, params_p, frame_size, channels, sample_size, sample_rate, port);
         } else {
