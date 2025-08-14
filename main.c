@@ -12,7 +12,10 @@ int main(int argc, char *argv[]) {
 
 
     if (strcmp(argv[1],"--list-devices") == 0){ 
-        list_devices();
+        list_devices(1);
+        printf("\n");
+        list_devices(2);
+
         return 0;
 
     }else if (strcmp(argv[1], "--device-info") == 0) {

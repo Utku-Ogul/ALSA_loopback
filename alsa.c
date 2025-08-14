@@ -10,62 +10,119 @@ const snd_pcm_format_t test_formats[] = {
     SND_PCM_FORMAT_FLOAT64_LE
 };
 
-void list_devices(void) {
-    for (int pass = 0; pass < 2; ++pass) {
-        // 0: PLAYBACK, 1: CAPTURE
-        puts(pass == 0 ? "**** PLAYBACK ****" : "**** CAPTURE ****");
 
-        int card = -1;
-        if (snd_card_next(&card) < 0 || card < 0) {
-            puts("  (no soundcards found)");
+void list_devices(int x) {
+    snd_pcm_stream_t y;
+    if (x==1)
+    {
+        printf("----playback devices----\n\n");
+        y =SND_PCM_STREAM_PLAYBACK;
+    }else if(x==2){
+        printf("----capture devices----\n\n");
+        y =SND_PCM_STREAM_CAPTURE;
+    }
+    
+
+    int card =-1;
+
+    if(snd_card_next(&card) <0 || card <0 ){
+        printf("no soundcards found");
+        exit(1);
+    }
+
+    while (card >= 0)
+    {
+        char ctl_name[50];
+        
+        
+        snprintf(ctl_name,sizeof(ctl_name), "hw:%d", card);
+        
+        snd_ctl_t *ctl = NULL;
+         if (snd_ctl_open(&ctl, ctl_name, 0) < 0) {
+            if (snd_card_next(&card) < 0) break;
+            continue;
+        }
+        
+        snd_ctl_card_info_t *info;
+        snd_ctl_card_info_malloc (&info);
+        if(snd_ctl_card_info(ctl, info)<0){
+            snd_ctl_card_info_free(info);
+            snd_ctl_close(ctl);
+            if (snd_card_next(&card) < 0) break;
             continue;
         }
 
-        while (card >= 0) {
-            char ctl_name[32];
-            snprintf(ctl_name, sizeof(ctl_name), "hw:%d", card);
+        
 
-            snd_ctl_t *ctl = NULL;
-            if (snd_ctl_open(&ctl, ctl_name, 0) >= 0) {
-                snd_ctl_card_info_t *cinfo;
-                snd_ctl_card_info_malloc(&cinfo);
-                snd_ctl_card_info(ctl, cinfo);
 
-                const char *card_id   = snd_ctl_card_info_get_id(cinfo);      // ör: EarPods / NVidia / Audio
-                const char *card_name = snd_ctl_card_info_get_name(cinfo);    // kimi kartlarda daha insan-dostu
-                const char *card_long = snd_ctl_card_info_get_longname(cinfo);
+        const char *card_id   = snd_ctl_card_info_get_id(info);
+        const char *card_name = snd_ctl_card_info_get_name(info);
+        
+        int device=-1;
+        while(snd_ctl_pcm_next_device(ctl,&device)>= 0 && device >=0 ){
+            snd_pcm_info_t *pi;
 
-                const char *nice_card =
-                    card_name ? card_name : (card_id ? card_id : (card_long ? card_long : "Card"));
-
-                int dev = -1;
-                while (snd_ctl_pcm_next_device(ctl, &dev) >= 0 && dev >= 0) {
-                    snd_pcm_info_t *pi;
-                    snd_pcm_info_malloc(&pi);
-                    snd_pcm_info_set_device(pi, dev);
-                    snd_pcm_info_set_subdevice(pi, 0);
-                    snd_pcm_info_set_stream(pi, pass == 0 ? SND_PCM_STREAM_PLAYBACK
-                                                          : SND_PCM_STREAM_CAPTURE);
-
-                    if (snd_ctl_pcm_info(ctl, pi) >= 0) {
-                        const char *dev_name = snd_pcm_info_get_name(pi); // ör: USB Audio / HDMI 0
-                        const char *dev_id   = snd_pcm_info_get_id(pi);
-                        const char *nice_dev = dev_name ? dev_name : (dev_id ? dev_id : "PCM");
-
-                        // Tek satır, kısa ve okunur: plughw:<card>,<device>  <Kart> — <Aygıt>
-                        printf("plughw:%d,%d  %s — %s\n", card, dev, nice_card, nice_dev);
-                    }
-                    snd_pcm_info_free(pi);
-                }
-
-                snd_ctl_card_info_free(cinfo);
-                snd_ctl_close(ctl);
+            if(snd_pcm_info_malloc(&pi)<0){
+                continue;
             }
 
-            if (snd_card_next(&card) < 0) break;
+
+            snd_pcm_info_set_device(pi, device);
+            snd_pcm_info_set_subdevice(pi, 0);
+            snd_pcm_info_set_stream(pi, y);
+
+
+            if (snd_ctl_pcm_info(ctl, pi) >= 0) {
+                const char *dev_name  = snd_pcm_info_get_name(pi);
+
+                printf("card %d: %s [%s], device %d: %s\n",card, card_id, card_name, device, dev_name);
+            }      
+
+            snd_pcm_info_free(pi);
+
         }
+
+        snd_ctl_card_info_free(info);
+        snd_ctl_close(ctl);
+
+        if(snd_card_next(&card)<0 ) break;
+
     }
+ 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 int open_capture_device(const char *capture, snd_pcm_t **pcm_handle_c, snd_pcm_hw_params_t **params_c, int channels, int sample_rate) {
     if (snd_pcm_open(pcm_handle_c, capture, SND_PCM_STREAM_CAPTURE, 0) < 0) {

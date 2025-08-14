@@ -14,7 +14,7 @@
 
 extern const snd_pcm_format_t test_formats[];
 
-void list_devices(void);
+void list_devices(int);
 int open_capture_device(const char *capture, snd_pcm_t **pcm_handle_c, snd_pcm_hw_params_t **params_c,int channels, int sample_rate);
 int open_playback_device(const char *playback,snd_pcm_t **pcm_handle_p, snd_pcm_hw_params_t **params_p, int channels, int sample_rate);
 void print_capture_device_info(const char *capture, snd_pcm_t **pcm_handle_c, snd_pcm_hw_params_t **params_c);
