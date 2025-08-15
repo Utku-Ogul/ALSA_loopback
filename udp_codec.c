@@ -196,3 +196,112 @@ void automatic_receiver(const char *playback, snd_pcm_t *pcm_handle_p, snd_pcm_h
         }
     }
 }
+
+
+void full_automatic_receiver(const char *playback, snd_pcm_t *pcm_handle_p, snd_pcm_hw_params_t *params_p, int port)
+{
+
+    AudioPacket packet;
+    
+    //UDP_receiver
+    int sockfd = socket(AF_INET, SOCK_DGRAM, 0);
+    if (sockfd < 0){
+        perror("socket");
+        exit(1);
+    }
+    
+    struct sockaddr_in recv_addr, sender_addr;
+    socklen_t addr_len = sizeof(sender_addr);
+
+    memset(&recv_addr, 0, sizeof(recv_addr)); 
+    recv_addr.sin_family=AF_INET;
+    recv_addr.sin_port=htons(port);
+    recv_addr.sin_addr.s_addr=htonl(INADDR_ANY) ; // local harici için INADDR_ANY local inet_addr("127.0.0.1")
+
+    bind(sockfd, (struct sockaddr*)&recv_addr, sizeof(recv_addr) );
+    
+    //temp config
+    int channels =0;
+    int sample_rate=0;
+    int sample_size=0;
+    int frame_size=0;
+    int configured=0;
+
+    //decoder
+    int opus_err;
+    int16_t decoded_buffer[frame_size * channels];
+    OpusDecoder *decoder= opus_decoder_create(sample_rate,channels,&opus_err);
+
+
+    
+    while (1)
+    {
+        
+        ssize_t recv_len = recvfrom(sockfd,&packet, sizeof(packet), 0, (struct sockaddr*)&sender_addr,&addr_len);
+        
+        
+        if(recv_len <0){
+            perror("recvfrom");
+            continue;
+        }else if(recv_len>0){
+            
+            uint16_t payload_len = ntohs(packet.data_length);
+            int packet_frame_size  = (int)ntohs(packet.frame_size);
+            int packet_channels    = (int)ntohs(packet.channels);
+            int packet_sample_size = (int)ntohs(packet.sample_size);
+            int packet_sample_rate = (int)ntohl(packet.sample_rate);
+            
+            if (frame_size!= packet_frame_size || 
+                channels!= packet_channels ||
+                sample_rate!= packet_sample_rate ||
+                sample_size!= packet_sample_size){
+
+
+                    channels=packet_channels;
+                    sample_rate=packet_sample_rate;
+                    sample_size=packet_sample_size;
+                    frame_size=packet_frame_size;
+
+                    opus_err;
+                    int16_t decoded_buffer[frame_size * channels];
+                    OpusDecoder *decoder= opus_decoder_create(sample_rate,channels,&opus_err);
+                    
+
+                    if(open_playback_device(playback, &pcm_handle_p, &params_p, channels, sample_rate)!=0){
+                        fprintf(stderr, "codec-open_playback_device!!!");
+                    };
+                    snd_pcm_hw_params_set_access(pcm_handle_p,params_p,SND_PCM_ACCESS_RW_INTERLEAVED);
+                    
+                    
+                    if (packet.codec_type==1){
+                        int opus_err;
+                        int16_t decoded_buffer[frame_size * channels];
+                        OpusDecoder *decoder= opus_decoder_create(sample_rate,channels,&opus_err);
+                        
+                       // decoded_buffer= (int16_t*)malloc(frame_size*channels*sizeof(int16_t));
+                        
+                    }
+                }
+                
+                
+                
+                if(packet.codec_type==1){
+
+                int decoded_samples= opus_decode(decoder,(unsigned char*)packet.payload ,payload_len,decoded_buffer,frame_size,0);
+                
+                int err=snd_pcm_writei(pcm_handle_p,decoded_buffer,decoded_samples);
+    
+                if(err<0){
+                    snd_pcm_recover(pcm_handle_p, err, 0);
+                }
+            }else if(packet.codec_type==0){
+                int frames = payload_len / (channels * sample_size);
+                if (frames > 0) {
+                    int err = snd_pcm_writei(pcm_handle_p, packet.payload, frames);
+                    if (err < 0) snd_pcm_recover(pcm_handle_p, err, 0);
+                }
+            }
+        }
+    }
+}
+

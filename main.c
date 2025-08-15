@@ -65,8 +65,13 @@ int main(int argc, char *argv[]) {
         } else if (receiver_mode == 2) {
             codec_receiver(playback, pcm_handle_p, params_p, frame_size, channels, sample_size, sample_rate, port);
         } else {
-            printf("mode 0 =automatic / mode 1 = udp / mode 2 = codec+udp\n");
+            printf("mode 0 =automatic / mode 1 = udp / mode 2 = codec+udp / mode = 3 full automatic\n");
         }
+    }else if(strcmp(argv[1], "--full") == 0){
+        playback = argv[2];
+        port = atoi(argv[3]);
+        full_automatic_receiver(playback, pcm_handle_p,params_p,port);
+
     } else {
         printf("unknown command!!!\n");
     }

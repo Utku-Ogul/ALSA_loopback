@@ -156,6 +156,7 @@ int open_playback_device(const char *playback, snd_pcm_t **pcm_handle_p, snd_pcm
     return 0;
 }
 
+
 // Mikrofon cihazı bilgisi
 void print_capture_device_info(const char *capture, snd_pcm_t **pcm_handle_c, snd_pcm_hw_params_t **params_c) {
     snd_pcm_open(pcm_handle_c, capture, SND_PCM_STREAM_CAPTURE, 0);
