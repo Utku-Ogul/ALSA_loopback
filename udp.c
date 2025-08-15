@@ -5,6 +5,11 @@ void udp_sender(const char *capture, snd_pcm_t *pcm_handle_c, snd_pcm_hw_params_
 
     AudioPacket packet;
     packet.codec_type = 0;
+    packet.frame_size  = htons(frame_size);
+    packet.channels    = htons(channels);
+    packet.sample_size = htons(sample_size);
+    packet.sample_rate = htonl(sample_rate);
+
     
     //capture
     if (open_capture_device(capture, &pcm_handle_c, &params_c, channels, sample_rate)!=0){

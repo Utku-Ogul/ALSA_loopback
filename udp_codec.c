@@ -14,6 +14,16 @@ void  codec_sender(const char *capture,snd_pcm_t *pcm_handle_c, snd_pcm_hw_param
     //encoder
     AudioPacket packet;
     packet.codec_type=1; //0=> udp 1=>opus+udp
+
+    packet.frame_size  = htons(frame_size);
+    packet.channels    = htons(channels);
+    packet.sample_size = htons(sample_size);
+    packet.sample_rate = htonl(sample_rate);
+
+
+
+
+
     int opus_err;
     OpusEncoder *encoder= opus_encoder_create(sample_rate,channels,OPUS_APPLICATION_VOIP,&opus_err);
 
