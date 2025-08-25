@@ -53,18 +53,20 @@ int main(int argc, char *argv[]) {
     } else if (strcmp(argv[1], "--receiver") == 0) {
         receiver_mode = atoi(argv[2]);
         playback = argv[3];
-        frame_size = atoi(argv[4]);
-        channels = atoi(argv[5]);
-        sample_size = atoi(argv[6]);
-        sample_rate = atoi(argv[7]);
-        port = atoi(argv[8]);
+        port = atoi(argv[4]);
+        frame_size = atoi(argv[5]);
+        channels = atoi(argv[6]);
+        sample_size = atoi(argv[7]);
+        sample_rate = atoi(argv[8]);
         if (receiver_mode == 0) {
             automatic_receiver(playback, pcm_handle_p, params_p, frame_size, channels, sample_size, sample_rate, port);
         } else if (receiver_mode == 1) {
             udp_receiver(playback, pcm_handle_p, params_p, channels, sample_size, sample_rate, port);
         } else if (receiver_mode == 2) {
             codec_receiver(playback, pcm_handle_p, params_p, frame_size, channels, sample_size, sample_rate, port);
-        } else {
+        } else if(receiver_mode == 3){
+            full_automatic_receiver(playback, pcm_handle_p, params_p, port);
+        }else{
             printf("mode 0 =automatic / mode 1 = udp / mode 2 = codec+udp / mode = 3 full automatic\n");
         }
     }else if(strcmp(argv[1], "--full") == 0){
