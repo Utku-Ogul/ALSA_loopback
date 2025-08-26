@@ -196,24 +196,27 @@ void automatic_receiver(const char *playback, snd_pcm_t *pcm_handle_p, snd_pcm_h
         }
     }
 }
+ 
 
-void full_automatic_receiver(const char *playback,
-                             snd_pcm_t *pcm_handle_p,
-                             snd_pcm_hw_params_t *params_p,
-                             int port)
+void full_automatic_receiver(const char *playback, snd_pcm_t *pcm_handle_p, snd_pcm_hw_params_t *params_p, int port)
 {
     AudioPacket packet;
 
     // UDP
     int sockfd = socket(AF_INET, SOCK_DGRAM, 0);
-    if (sockfd < 0) { perror("socket"); return; }
+    if (sockfd < 0){
+        perror("socket");
+        exit(1);
+    }
 
     struct sockaddr_in recv_addr, sender_addr;
     socklen_t addr_len = sizeof(sender_addr);
     memset(&recv_addr, 0, sizeof(recv_addr));
+
     recv_addr.sin_family      = AF_INET;
     recv_addr.sin_port        = htons(port);
     recv_addr.sin_addr.s_addr = htonl(INADDR_ANY);
+
     if (bind(sockfd, (struct sockaddr*)&recv_addr, sizeof(recv_addr)) < 0) {
         perror("bind");
         close(sockfd);
@@ -224,76 +227,129 @@ void full_automatic_receiver(const char *playback,
     int configured       = 0;
     int cur_rate         = 0;
     int cur_channels     = 0;
-    int cur_sample_size  = 0;     // bytes per sample
-    int cur_frame        = 0;     // samples per channel
-    uint8_t cur_codec    = 0xFF;  // bilinmiyor
+    int cur_sample_size  = 0;     // bytes per sample (kanal başına)
+    int cur_frame        = 0;     // frame = kanal başına örnek sayısı
+    uint8_t cur_codec    = 0;     // 0=PCM, 1=Opus
 
     // Opus
-    OpusDecoder *opus_dec = NULL;
+    OpusDecoder *decoder = NULL;
     int opus_err = 0;
 
     // Decode buffer (dinamik)
     int16_t *decoded_buffer = NULL;
-    size_t   decoded_cap    = 0;  // toplam int16 örnek kapasitesi (samples*channels)
+    size_t   decoded_cap    = 0;  // kaç adet int16 saklayabilir (capacity)
 
     for (;;) {
+        // Paket al
         ssize_t recv_len = recvfrom(sockfd, &packet, sizeof(packet), 0,
                                     (struct sockaddr*)&sender_addr, &addr_len);
-        if (recv_len < 0) {
-            perror("recvfrom");
+        if (recv_len <= 0) {
+            // hata/boş paket -> sıradaki dene
             continue;
         }
-        if (recv_len == 0) continue;
 
-        // Başlığı network byte order'dan çevir
-        uint16_t hdr_frame       = ntohs(packet.frame_size);
-        uint16_t hdr_channels    = ntohs(packet.channels);
-        uint16_t hdr_sample_size = ntohs(packet.sample_size);
-        uint32_t hdr_rate        = ntohl(packet.sample_rate);
-        uint8_t  hdr_codec       = packet.codec_type;
+        // Başlık alanlarını host byte order'a çevir
+        uint16_t frame       = ntohs(packet.frame_size);
+        uint16_t channels    = ntohs(packet.channels);
+        uint16_t sample_size = ntohs(packet.sample_size);
+        uint32_t rate        = ntohl(packet.sample_rate);
+        uint8_t  codec       = packet.codec_type;
         uint16_t payload_len     = ntohs(packet.data_length);
 
-        // Konfig değişimi var mı?
-        int need_reconf = !configured ||
-                          hdr_codec        != cur_codec     ||
-                          (int)hdr_rate    != cur_rate      ||
-                          (int)hdr_channels!= cur_channels  ||
-                          (int)hdr_frame   != cur_frame     ||
-                          (int)hdr_sample_size != cur_sample_size;
 
-        if (need_reconf) {
-            // Eski paket kuyruklarını boşalt (lag/robotik önler)
-            for (;;) {
-                ssize_t n = recvfrom(sockfd, &packet, sizeof(packet),
-                                     MSG_DONTWAIT, (struct sockaddr*)&sender_addr, &addr_len);
+        // Konfig değişti mi?
+        if (!configured ||
+            codec        != cur_codec     ||
+            rate    != cur_rate      ||
+            channels!= cur_channels  ||
+            frame   != cur_frame     ||
+            sample_size != cur_sample_size)
+        {
+            // Eski paketleri (kuyruk) hızlıca boşalt — gecikme/robotik önler
+            while (1) {
+                ssize_t n = recvfrom(sockfd, &packet, sizeof(packet), MSG_DONTWAIT,
+                                     (struct sockaddr*)&sender_addr, &addr_len);
                 if (n <= 0) break;
             }
 
-            // ALSA playback’i yeni rate/channels ile güvenli şekilde yeniden aç
+            // Eski ALSA'yı güvenli kapat
             if (pcm_handle_p) {
                 snd_pcm_drop(pcm_handle_p);
                 snd_pcm_close(pcm_handle_p);
                 pcm_handle_p = NULL;
             }
-            if (open_playback_device(playback, &pcm_handle_p, &params_p,
-                                     (int)hdr_channels, (int)hdr_rate) != 0) {
+
+            // Yeni parametrelerle playback aç
+            if (open_playback_device(playback, &pcm_handle_p, &params_p,channels, rate) != 0) {
                 fprintf(stderr, "open_playback_device failed\n");
                 configured = 0;
-                continue;
+                continue; // sonraki paketi bekle
             }
 
-            // Opus decoder’ı yeniden kur / kapat
-            if (opus_dec) { opus_decoder_destroy(opus_dec); opus_dec = NULL; }
-            if (hdr_codec == 1) {
-                opus_dec = opus_decoder_create((int)hdr_rate, (int)hdr_channels, &opus_err);
-                if (opus_err != OPUS_OK) {
+            // Opus decoder'ı sıfırla
+            if (decoder) { opus_decoder_destroy(decoder); decoder = NULL; }
+
+            if (codec == 1) {
+                decoder = opus_decoder_create(rate, channels, &opus_err);
+                if (opus_err != OPUS_OK || !decoder) {
                     fprintf(stderr, "opus_decoder_create: %d\n", opus_err);
+                    configured = 0;
                     continue;
                 }
             }
 
-            // Decode buffer kapasitesi
-            size_t need = (size_t)hdr_frame * (size_t)hdr_channels;
+            // Decode buffer kapasitesi (frame * channels adet int16)
+            {
+                size_t need = (size_t)frame * (size_t)channels;
+                if (need > decoded_cap) {
+                    int16_t *tmp = (int16_t*)realloc(decoded_buffer, need * sizeof(int16_t));
+                    if (!tmp) {
+                        fprintf(stderr, "realloc failed\n");
+                        configured = 0;
+                        continue;
+                    }
+                    decoded_buffer = tmp;
+                    decoded_cap    = need;
+                }
+            }
+
+            // Yeni durumu kaydet
+            cur_codec       = codec;
+            cur_rate        = (int)rate;
+            cur_channels    = (int)channels;
+            cur_frame       = (int)frame;
+            cur_sample_size = (int)sample_size;
+            configured      = 1;
+
+            // Bu paketi atlayıp temiz başlangıç yap
+            continue;
+        }
+
+        // Veri oynatma
+        if (!configured) continue; //configured 0-> başadön ayarlamaları yap 1-> çözümleme için devam et
+
+        if (cur_codec == 0) {
+            // PCM (ham)
+            // Basit tutmak için S16_LE (2 byte) varsayıyoruz; farklıysa atla
+            if (cur_sample_size != 2) continue;
+
+            int frames = (cur_channels > 0 && cur_sample_size > 0)
+                       ? (int)(payload_len / (cur_channels * cur_sample_size))
+                       : 0;
+
+            if (frames > 0) {
+                snd_pcm_sframes_t w = snd_pcm_writei(pcm_handle_p, (const int16_t*)packet.payload, frames);
+                if (w < 0) {
+                    // Kısa toparlama
+                    int r = snd_pcm_recover(pcm_handle_p, (int)w, 0);
+                    if (r < 0) snd_pcm_prepare(pcm_handle_p);
+                }
+            }
+        } else if (cur_codec == 1) {
+            // OPUS
+            if (!decoder) continue;
+
+            size_t need = (size_t)cur_frame * (size_t)cur_channels;
             if (need > decoded_cap) {
                 int16_t *tmp = (int16_t*)realloc(decoded_buffer, need * sizeof(int16_t));
                 if (!tmp) { fprintf(stderr, "realloc failed\n"); continue; }
@@ -301,59 +357,24 @@ void full_automatic_receiver(const char *playback,
                 decoded_cap    = need;
             }
 
-            // Yeni durumu kaydet + bu paketi atla (temiz başlangıç)
-            cur_codec       = hdr_codec;
-            cur_rate        = (int)hdr_rate;
-            cur_channels    = (int)hdr_channels;
-            cur_frame       = (int)hdr_frame;
-            cur_sample_size = (int)hdr_sample_size;
-            configured      = 1;
-            continue;
-        }
-
-        // Veri oynatma
-        if (cur_codec == 0) {
-            // PCM (ham)
-            int frames = (cur_channels > 0 && cur_sample_size > 0)
-                         ? (int)(payload_len / (cur_channels * cur_sample_size))
-                         : 0;
-            if (frames > 0) {
-                snd_pcm_sframes_t w = snd_pcm_writei(pcm_handle_p,
-                                                     (const int16_t*)packet.payload,
-                                                     frames);
-                if (w < 0) snd_pcm_recover(pcm_handle_p, w, 0);
-            }
-        } else if (cur_codec == 1) {
-            // OPUS
-            if (!opus_dec) continue;
-            if ((size_t)(cur_frame * cur_channels) > decoded_cap) {
-                int16_t *tmp = (int16_t*)realloc(decoded_buffer,
-                                (size_t)cur_frame * (size_t)cur_channels * sizeof(int16_t));
-                if (!tmp) { fprintf(stderr, "realloc failed\n"); continue; }
-                decoded_buffer = tmp;
-                decoded_cap    = (size_t)cur_frame * (size_t)cur_channels;
-            }
-
-            int decoded = opus_decode(opus_dec,
+            int decoded = opus_decode(decoder,
                                       (const unsigned char*)packet.payload,
-                                      payload_len,
+                                      (opus_int32)payload_len,
                                       decoded_buffer,
-                                      cur_frame, /*decode_fec=*/0);
+                                      cur_frame,
+                                      0 /* FEC kapalı */);
             if (decoded < 0) {
                 fprintf(stderr, "opus_decode err: %d\n", decoded);
-                snd_pcm_prepare(pcm_handle_p); // hızlı toparlama
+                snd_pcm_prepare(pcm_handle_p);
                 continue;
             }
 
             snd_pcm_sframes_t w = snd_pcm_writei(pcm_handle_p, decoded_buffer, decoded);
-            if (w < 0) snd_pcm_recover(pcm_handle_p, w, 0);
-        } else {
-            // bilinmeyen codec -> atla
+            if (w < 0) {
+                int r = snd_pcm_recover(pcm_handle_p, (int)w, 0);
+                if (r < 0) snd_pcm_prepare(pcm_handle_p);
+            }
         }
     }
 
-    // (Ulaşılmayabilir)
-    if (opus_dec) opus_decoder_destroy(opus_dec);
-    free(decoded_buffer);
-    close(sockfd);
 }

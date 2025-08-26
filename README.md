@@ -12,8 +12,8 @@ Ubuntu/Debian için örnek bağımlılıklar ve derleme adımları:
 sudo apt update
 sudo apt install -y build-essential cmake pkg-config libasound2-dev libopus-dev
 
-cmake -S . -B build
-cmake --build build -j
+cmake ..
+make
 ```
 
 Çalıştırma (ikili dosya: `ses`):

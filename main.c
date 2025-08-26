@@ -64,10 +64,8 @@ int main(int argc, char *argv[]) {
             udp_receiver(playback, pcm_handle_p, params_p, channels, sample_size, sample_rate, port);
         } else if (receiver_mode == 2) {
             codec_receiver(playback, pcm_handle_p, params_p, frame_size, channels, sample_size, sample_rate, port);
-        } else if(receiver_mode == 3){
-            full_automatic_receiver(playback, pcm_handle_p, params_p, port);
         }else{
-            printf("mode 0 =automatic / mode 1 = udp / mode 2 = codec+udp / mode = 3 full automatic\n");
+            printf("mode 0 =automatic / mode 1 = udp / mode 2 = codec+udp\n");
         }
     }else if(strcmp(argv[1], "--full") == 0){
         playback = argv[2];
