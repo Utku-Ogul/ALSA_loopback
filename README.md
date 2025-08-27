@@ -122,6 +122,7 @@ Belirtilen aygıt(lar)ın özet bilgilerini gösterir.
 ```
 # mode: 0=oto, 1=codecsiz, 2=codec, 3=full-oto
 ./ses --receiver [mode] [playback] [port] [frame_size] [channels] [sample_size] [sample_rate]
+./ses --full [playback] [port]
 ```
 
 Örnekler:
@@ -130,7 +131,7 @@ Belirtilen aygıt(lar)ın özet bilgilerini gösterir.
 ./ses --receiver 0 plughw:2,0 5000 960 1 2 48000
 ./ses --receiver 1 plughw:2,0 5000 960 1 2 48000
 ./ses --receiver 2 plughw:2,0 5000 960 1 2 48000
-./ses --receiver 3 plughw:2,0 5000
+./ses --full plughw:2,0 5000
 ```
 
 ---
