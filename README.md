@@ -16,15 +16,6 @@ cmake ..
 make
 ```
 
-Çalıştırma (ikili dosya: `ses`):
-
-```bash
-./build/ses --list-devices
-```
-
-> Not: Projeyi farklı klasörde derlediyseniz ikili dosya yolunu buna göre değiştirin.
-
----
 
 ## Komut Özeti
 
