@@ -1,0 +1,3 @@
+/home/mjin/Desktop/internship/task/build/CMakeFiles/ses.dir
+/home/mjin/Desktop/internship/task/build/CMakeFiles/edit_cache.dir
+/home/mjin/Desktop/internship/task/build/CMakeFiles/rebuild_cache.dir
