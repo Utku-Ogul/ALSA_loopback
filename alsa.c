@@ -216,7 +216,10 @@ void loopback(const char *capture, const char *playback, snd_pcm_t **pcm_handle_
 
     while (1) {
         snd_pcm_readi(*pcm_handle_c, buffer, frame_size);
-        snd_pcm_writei(*pcm_handle_p, buffer, frame_size);
+        int err = snd_pcm_writei(*pcm_handle_p, buffer, frame_size);
+        if(err<0){
+            snd_pcm_recover(pcm_handle_p, err, 0);
+        }
     }
 
     free(buffer);
