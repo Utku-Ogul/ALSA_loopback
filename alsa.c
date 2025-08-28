@@ -214,12 +214,25 @@ void loopback(const char *capture, const char *playback, snd_pcm_t **pcm_handle_
         return;
     }
 
+    int delay=1000000;
     while (1) {
-        snd_pcm_readi(*pcm_handle_c, buffer, frame_size);
-        int err = snd_pcm_writei(*pcm_handle_p, buffer, frame_size);
-        if(err<0){
-            snd_pcm_recover(pcm_handle_p, err, 0);
+
+        snd_pcm_sframes_t frames = snd_pcm_readi(*pcm_handle_c, buffer, frame_size);
+        while (delay)
+        {
+            if (frames<0){
+                int i = snd_pcm_recover(*pcm_handle_c,frames,0);
+            }
+            delay =delay-1;
         }
+        
+
+        frames = snd_pcm_writei(*pcm_handle_p, buffer, frame_size);
+
+        if (frames<0){
+            int i = snd_pcm_recover(*pcm_handle_p,frames,0);
+        }
+ 
     }
 
     free(buffer);
