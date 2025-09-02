@@ -17,5 +17,10 @@ typedef struct {
 } RingBuffer;
 
 int rb_init(RingBuffer *rb, int cap, int frame_bytes);
+void rb_free(RingBuffer *rb);
+int rb_push(RingBuffer *rb, const uint8_t *data);
+int rb_pop(RingBuffer *rb, uint8_t *out);
+
+
 
 #endif 
