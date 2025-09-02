@@ -12,6 +12,6 @@ include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR} # Proje ana dizini (local .h dosyaları için)
 )
 
-add_executable(ses main.c alsa.c udp_codec.c udp.c)
+add_executable(ses main.c alsa.c udp_codec.c udp.c ringbuffer.c)
 
-target_link_libraries(ses ${ALSA_LIBRARIES} ${OPUS_LIBRARIES})
+target_link_libraries(ses ${ALSA_LIBRARIES} ${OPUS_LIBRARIES}) 

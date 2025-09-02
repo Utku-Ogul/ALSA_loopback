@@ -8,7 +8,8 @@ typedef struct{
     uint16_t channels;
     uint16_t sample_size;    // network order (byte/channel)
     uint32_t sample_rate;
-
+    uint32_t seq;
+    uint32_t frame_ms;
     uint8_t codec_type;
     uint16_t data_length;
     char payload[4000];

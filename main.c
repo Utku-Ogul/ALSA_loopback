@@ -80,3 +80,5 @@ int main(int argc, char *argv[]) {
     snd_pcm_close(pcm_handle_c);
     return 0;
 }
+//jitter buffer 
+//multi
