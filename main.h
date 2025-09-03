@@ -4,6 +4,7 @@
 #include "alsa.h"
 #include "udp_codec.h"
 #include "udp.h"
+#include "duplex.h"
 
 #include <stdio.h>
 #include <unistd.h>

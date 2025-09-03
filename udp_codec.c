@@ -282,8 +282,11 @@ void full_automatic_receiver(const char *playback, snd_pcm_t *pcm_handle_p, snd_
                 decoder = opus_decoder_create(rate, channels, &opus_err);
                 if (opus_err != OPUS_OK || !decoder) {
                     configured = 0;
-                    if (rb_ready) { rb_free(&rb); rb_ready = 0; }
-                    free(rb_out); rb_out = NULL;
+                    if (rb_ready) {
+                        rb_free(&rb); rb_ready = 0; 
+                    }
+                    free(rb_out); 
+                    rb_out = NULL;
                     continue;
                 }
             }
@@ -296,8 +299,12 @@ void full_automatic_receiver(const char *playback, snd_pcm_t *pcm_handle_p, snd_
                     if (!tmp) {
                         fprintf(stderr, "realloc failed\n");
                         configured = 0;
-                        if (rb_ready) { rb_free(&rb); rb_ready = 0; }
-                        free(rb_out); rb_out = NULL;
+                        if (rb_ready) {
+                            rb_free(&rb); 
+                            rb_ready = 0; 
+                        }
+                        free(rb_out); 
+                        rb_out = NULL;
                         continue;
                     }
                     decoded_buffer = tmp;
@@ -306,7 +313,10 @@ void full_automatic_receiver(const char *playback, snd_pcm_t *pcm_handle_p, snd_
             }
 
             // RING’i kur
-            if (rb_ready) { rb_free(&rb); rb_ready = 0; }
+            if (rb_ready) {
+                rb_free(&rb);
+                rb_ready = 0;
+            }
             int frame_bytes = (codec == 1)
                             ? frame * channels * 2        // opus decode çıkışı int16
                             : frame * channels * sample_size; // pcm
@@ -316,7 +326,8 @@ void full_automatic_receiver(const char *playback, snd_pcm_t *pcm_handle_p, snd_
                 rb_out = (uint8_t*)malloc((size_t)frame_bytes);  // tek slotluk buffer
             } else {
                 rb_ready = 0;
-                free(rb_out); rb_out = NULL;
+                free(rb_out); 
+                rb_out = NULL;
             }
 
             cur_codec       = codec;
@@ -359,7 +370,7 @@ void full_automatic_receiver(const char *playback, snd_pcm_t *pcm_handle_p, snd_
             }
         }
 
-        // --- Prefill YOK: ringde varsa hemen çal (pop + writei) ---
+        // ringde varsa hemen çal (pop + writei) ---
         if (rb_ready && rb_out) {
             if (rb_pop(&rb, rb_out) == 0) {
                 int bytes_per_smp  = (cur_codec == 1) ? 2 : cur_sample_size;

@@ -72,6 +72,9 @@ int main(int argc, char *argv[]) {
         port = atoi(argv[3]);
         full_automatic_receiver(playback, pcm_handle_p,params_p,port);
 
+    }else if(strcmp(argv[1], "--full-duplex"==0 )){
+
+        
     } else {
         printf("unknown command!!!\n");
     }
