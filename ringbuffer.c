@@ -29,7 +29,7 @@ int rb_push(RingBuffer *rb, const uint8_t *data){
     if(rb->present[rb->w]){
         return -1; 
     }
-    memcpy(rb->slots + (size_t)rb->w * (size_t)rb->frame_bytes);
+    memcpy(rb->slots + (size_t)rb->w * (size_t)rb->frame_bytes, data, (size_t)rb->frame_bytes);
     rb->present[rb->w]=1;
     rb->w=(rb->w+1) % rb->cap;
     return 0;
@@ -40,7 +40,7 @@ int rb_pop(RingBuffer *rb, uint8_t *out){
         return -1;
     }
 
-    memcpy(out,rb->slots + (size_t)rb->r * (size_t)rb->frame_bytes), (size_t)rb->frame_bytes;
+    memcpy(out,rb->slots + (size_t)rb->r * (size_t)rb->frame_bytes, (size_t)rb->frame_bytes);
     rb->present[rb->r]=0;
     rb->r= (rb->r+1) % rb->cap;
     return 0; 
