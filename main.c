@@ -7,7 +7,7 @@ int main(int argc, char *argv[]) {
 
     snd_pcm_t *pcm_handle_c = NULL, *pcm_handle_p = NULL;
     snd_pcm_hw_params_t *params_c = NULL, *params_p = NULL;
-    int frame_size, channels, sample_size, sample_rate, udp_mode, port, receiver_mode;
+    int frame_size, channels, sample_size, sample_rate, udp_mode, port, port2, receiver_mode;
 
 
 
@@ -72,9 +72,16 @@ int main(int argc, char *argv[]) {
         port = atoi(argv[3]);
         full_automatic_receiver(playback, pcm_handle_p,params_p,port);
 
-    }else if(strcmp(argv[1], "--full-duplex"==0 )){
-
-        
+    }else if(strcmp(argv[1], "--full-duplex") ==0 ){
+        /* Argüman sırası:
+        <capture> <playback> <ip> <port_send> <port_listen> <frame> <ch> <sbytes> <rate> <mode>
+        mode: 0=PCM(udp_sender), 1=Opus(codec_sender)
+        */
+        int r = duplex_run_from_args(argc, argv, 2);
+        if (r != 0) {
+            fprintf(stderr, "full-duplex baslatilamadi.\n");
+            return 1;
+        }
     } else {
         printf("unknown command!!!\n");
     }
@@ -83,5 +90,3 @@ int main(int argc, char *argv[]) {
     snd_pcm_close(pcm_handle_c);
     return 0;
 }
-//jitter buffer 
-//multi
