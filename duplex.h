@@ -14,22 +14,21 @@
 
 /* Basit full-duplex parametreleri */
 typedef struct {
-    const char *capture;       /* "plughw:1,0" */
-    const char *playback;      /* "plughw:2,0" */
-    const char *remote_ip;     /* "192.168.1.50" */
+    const char *capture;       
+    const char *playback;      
+    const char *remote_ip;     
 
-    int port_send;             /* uzak cihaza göndereceğin port (örn 5001) */
-    int port_listen;           /* yerelde dinleyeceğin port (örn 5000) */
+    int port_send;           
+    int port_listen;           
 
-    int frame_size;            /* örn: 960 */
-    int channels;              /* 1 veya 2 */
-    int sample_size;           /* byte: 1/2/4 (S8/S16/S32) */
-    int sample_rate;           /* örn: 48000 */
+    int frame_size;           
+    int channels;              
+    int sample_size;           
+    int sample_rate;        
 
-    int use_codec;             /* 0 = PCM/ham UDP (udp_sender), 1 = Opus (codec_sender) */
+    int use_codec;             
 } DuplexParams;
 
-/* Struct ile doğrudan başlatma */
 int duplex_run(const DuplexParams *p);
 
 /* Argümanlarla başlatma (main için kolaylık):
