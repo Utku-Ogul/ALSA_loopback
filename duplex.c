@@ -1,15 +1,5 @@
 #include "duplex.h"
 
-#include <pthread.h>
-#include <stdlib.h>
-#include <string.h>
-#include <stdio.h>
-#include <unistd.h>
-
-/* Projendeki mevcut başlıklar */
-#include "alsa.h"
-#include "udp.h"
-#include "udp_codec.h"
 
 /* ---------------- Thread hedefleri ---------------- */
 

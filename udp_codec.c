@@ -271,8 +271,12 @@ void full_automatic_receiver(const char *playback, snd_pcm_t *pcm_handle_p, snd_
             if (open_playback_device(playback, &pcm_handle_p, &params_p, channels, rate) != 0) {
                 fprintf(stderr, "open_playback_device failed\n");
                 configured = 0;
-                if (rb_ready) { rb_free(&rb); rb_ready = 0; }
-                free(rb_out); rb_out = NULL;
+                if (rb_ready) {
+                    rb_free(&rb); 
+                    rb_ready = 0; 
+                }
+                free(rb_out); 
+                rb_out = NULL;
                 continue;
             }
 
@@ -283,7 +287,8 @@ void full_automatic_receiver(const char *playback, snd_pcm_t *pcm_handle_p, snd_
                 if (opus_err != OPUS_OK || !decoder) {
                     configured = 0;
                     if (rb_ready) {
-                        rb_free(&rb); rb_ready = 0; 
+                        rb_free(&rb); 
+                        rb_ready = 0; 
                     }
                     free(rb_out); 
                     rb_out = NULL;
@@ -324,6 +329,7 @@ void full_automatic_receiver(const char *playback, snd_pcm_t *pcm_handle_p, snd_
                 rb_ready = 1;
                 free(rb_out);
                 rb_out = (uint8_t*)malloc((size_t)frame_bytes);  // tek slotluk buffer
+       
             } else {
                 rb_ready = 0;
                 free(rb_out); 

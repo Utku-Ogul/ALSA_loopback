@@ -1,6 +1,17 @@
 #ifndef DUPLEX_H
 #define DUPLEX_H
 
+#include <pthread.h>
+#include <stdlib.h>
+#include <string.h>
+#include <stdio.h>
+#include <unistd.h>
+
+/* Projendeki mevcut başlıklar */
+#include "alsa.h"
+#include "udp.h"
+#include "udp_codec.h"
+
 /* Basit full-duplex parametreleri */
 typedef struct {
     const char *capture;       /* "plughw:1,0" */
